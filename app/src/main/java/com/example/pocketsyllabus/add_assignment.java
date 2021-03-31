@@ -26,16 +26,16 @@ public class add_assignment extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_assignment);
 
-        txtName = (EditText) findViewById(R.id.txtName);
-        txtDue = (EditText) findViewById(R.id.txtDueDate);
-        btnAdd = (Button) findViewById(R.id.btnAdd);
-        Bundle bundle =
+//        txtName = (EditText) findViewById(R.id.txtName);
+//        txtDue = (EditText) findViewById(R.id.txtDueDate);
+//        btnAdd = (Button) findViewById(R.id.btnAdd);
+        Bundle bundle = getIntent().getExtras();
 
         btnAdd.setOnClickListener(v1 -> {
             //get user input
             String assignName = txtName.getText().toString();
             String dueDate = txtDue.getText().toString();
-            String class =
+            String className = bundle.getString("name");
             //add new row to assignment table
             //get sqlHelper working and then use addAssignment to add assignment
             helper.addAssignment(assignName, dueDate);

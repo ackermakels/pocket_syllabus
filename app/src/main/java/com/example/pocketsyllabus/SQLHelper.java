@@ -78,25 +78,25 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    //query database and return ArrayList of all animals
-    public ArrayList<Animal> getAnimalList () {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        cursor = db.query(TABLE_NAME,
-                new String[] {KEY_NAME, KEY_Q},
-                null, null, null, null, KEY_NAME);
-
-        //write contents of Cursor to list
-        animalList = new ArrayList<Animal>();
-        while (cursor.moveToNext()) {
-            String str = cursor.getString(cursor.getColumnIndex(KEY_NAME));
-            int count = cursor.getInt(cursor.getColumnIndex(KEY_Q));
-            animalList.add(new Animal(str, count));
-        };
-        db.close();
-        return animalList;
-
-    }
+//    //query database and return ArrayList of all animals
+//    public ArrayList<Animal> getAnimalList () {
+//
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        cursor = db.query(TABLE_NAME,
+//                new String[] {KEY_NAME, KEY_Q},
+//                null, null, null, null, KEY_NAME);
+//
+//        //write contents of Cursor to list
+//        animalList = new ArrayList<Animal>();
+//        while (cursor.moveToNext()) {
+//            String str = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+//            int count = cursor.getInt(cursor.getColumnIndex(KEY_Q));
+//            animalList.add(new Animal(str, count));
+//        };
+//        db.close();
+//        return animalList;
+//
+//    }
 }
 
 
