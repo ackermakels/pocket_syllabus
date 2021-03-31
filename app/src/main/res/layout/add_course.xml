@@ -36,7 +36,7 @@
             android:text="Course Name:" />
 
         <EditText
-            android:id="@+id/txtCheckAmt"
+            android:id="@+id/courseNameInput"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
             android:text="Professor:" />
 
         <EditText
-            android:id="@+id/txtNumP"
+            android:id="@+id/professorNameInput"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
             android:text="Professor's Email:" />
 
         <EditText
-            android:id="@+id/txtTipPercent"
+            android:id="@+id/emailInput"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
         android:paddingBottom="10dp">
 
         <Button
-            android:id="@+id/btnGo"
+            android:id="@+id/AddCourse"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
