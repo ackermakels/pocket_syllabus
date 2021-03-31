@@ -56,6 +56,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         values.put(KEY_DATE, date);
         db.insert(TABLE_NAME, null, values);
         Log.d("SQLiteDemo", name + " added");
+
         db.close();
     }
 
