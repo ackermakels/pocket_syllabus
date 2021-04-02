@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
             Log.e("PocketSty", "Failed to Create DB");
         }
 
+
+        helper.addAssignment("A1", "1/1/2020", "CS480");
     }
 
     public void OpenAddNewCourseActivity(){
@@ -43,5 +45,13 @@ public class MainActivity extends AppCompatActivity {
         Intent i1 = new Intent(this, AddCourse.class);
         startActivity(i1);
         Toast.makeText(this, "Opening Add New Course Page", Toast.LENGTH_SHORT).show();
+    }
+
+    //close database
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(db != null)
+            db.close();
     }
 }

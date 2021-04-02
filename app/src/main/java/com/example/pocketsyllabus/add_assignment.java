@@ -38,7 +38,7 @@ public class add_assignment extends Activity {
             String className = bundle.getString("name");
             //add new row to assignment table
             //get sqlHelper working and then use addAssignment to add assignment
-            helper.addAssignment(assignName, dueDate);
+            // helper.addAssignment(assignName, dueDate);
 
         });
 
