@@ -2,6 +2,7 @@ package com.example.pocketsyllabus;
 
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,8 @@ public class AddCourse extends Activity {
     private EditText professor;
     private EditText professorEmail;
     private Button addCourse;
+    private SQLiteDatabase db;
+    private SQLHelper helper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,6 +29,9 @@ public class AddCourse extends Activity {
         professor = findViewById(R.id.professorNameInput);
         professorEmail = findViewById(R.id.emailInput);
         addCourse = findViewById(R.id.AddCourse);
+
+        helper = new SQLHelper(this);
+
 
         addCourse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +53,10 @@ public class AddCourse extends Activity {
         String emailString = professorEmail.getText().toString();
         if (professorEmail == null || professorEmail.length() == 0){
             Toast.makeText(this, "Enter a professor email", Toast.LENGTH_SHORT).show();
+        }
+
+        else {
+            helper.addCourse(courseNameString, professorString, emailString);
         }
 
         /***

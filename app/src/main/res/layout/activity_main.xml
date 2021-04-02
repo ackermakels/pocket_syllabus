@@ -26,6 +26,7 @@
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <ListView
+        android:id="@+id/listView"
         android:layout_width="409dp"
         android:layout_height="221dp"
         app:layout_constraintStart_toStartOf="parent"

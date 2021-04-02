@@ -89,12 +89,13 @@ public class SQLHelper extends SQLiteOpenHelper {
     }
 
     //add course to database
-    public void addCourse(String name, String professor) {
+    public void addCourse(String name, String professor, String email) {
         SQLiteDatabase db = this.getWritableDatabase();
         values = new ContentValues();
         values.put(KEY_A_NAME, name);
         values.put(KEY_A_DATE, professor);
-        db.insert(ASSIGNMENT_TABLE, null, values);
+        values.put(KEY_EMAIL, email);
+        db.insert(COURSE_TABLE, null, values);
         Log.d("PS", name + " added");
 
         db.close();
@@ -138,6 +139,15 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.delete(COURSE_TABLE,  "course_name=?", new String[] {course_name});
         Log.d("SQLiteDemo", course_name + " deleted");
         db.close();
+    }
+
+    //retrieve course data to populate list view
+
+    public Cursor getData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + COURSE_TABLE;
+        Cursor data = db.rawQuery(query, null);
+        return data;
     }
 }
 
