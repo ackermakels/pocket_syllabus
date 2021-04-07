@@ -1,21 +1,20 @@
 package com.example.pocketsyllabus;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
-
 import android.database.*;
 import android.database.sqlite.*;
 import android.util.Log;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
     private Button button;
     private ListView courseList;
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         items = new ArrayList<>();
         itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         courseList.setAdapter(itemsAdapter);
+        courseList.setOnItemClickListener(this);
 
 
         helper = new SQLHelper(this);
@@ -41,20 +41,23 @@ public class MainActivity extends AppCompatActivity {
         try {
             db = helper.getWritableDatabase();
         } catch (SQLException e) {
-            Log.e("PocketSty", "Failed to Create DB");
+            Log.d("PocketSty", "Failed to Create DB");
         }
 
 
-        helper.addAssignment("A1", "1/1/2020", "CS480");
-
         //create listener on button to run open Add method
         button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick(View view) { OpenAddNewCourseActivity(); }
+            public void onClick(View v) {
+               OpenAddNewCourseActivity();
+            }
         });
+    }
 
-        //load course list from db
+    @Override
+    public void onResume() {
+        super.onResume();
         populateListView();
     }
 
@@ -63,16 +66,25 @@ public class MainActivity extends AppCompatActivity {
 
         Cursor data = helper.getData();
 
+        items.clear();
+
         while (data.moveToNext()){
             items.add(data.getString(0)); //select course name, and add to listView
         }
         itemsAdapter.notifyDataSetChanged();
     }
+
     public void OpenAddNewCourseActivity(){
+        Log.d( "pocket syllabus", "clicked add new course");
 
         Intent i1 = new Intent(this, AddCourse.class);
         startActivity(i1);
         Toast.makeText(this, "Opening Add New Course Page", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+        String courseName = items.get(position);
+        Log.e("pocket syllabus", courseName);
     }
 
     //close database

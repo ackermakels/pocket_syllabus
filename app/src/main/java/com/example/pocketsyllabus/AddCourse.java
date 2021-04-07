@@ -43,20 +43,22 @@ public class AddCourse extends Activity {
     public void add_course(){
 
         String courseNameString = courseName.getText().toString();
-        if (courseName == null || courseName.length() == 0){
-            Toast.makeText(this, "Enter a course name", Toast.LENGTH_SHORT).show();
-        }
         String professorString = professor.getText().toString();
-        if (professor == null || professor.length() == 0){
-            Toast.makeText(this, "Enter a professor name", Toast.LENGTH_SHORT).show();
-        }
         String emailString = professorEmail.getText().toString();
-        if (professorEmail == null || professorEmail.length() == 0){
-            Toast.makeText(this, "Enter a professor email", Toast.LENGTH_SHORT).show();
-        }
 
-        else {
+        if (courseName == null || courseName.length() == 0){
+
+            Toast.makeText(this, "Enter a course name", Toast.LENGTH_SHORT).show();
+        } else if (professor == null || professor.length() == 0){
+
+            Toast.makeText(this, "Enter a professor name", Toast.LENGTH_SHORT).show();
+        } else if (professorEmail == null || professorEmail.length() == 0){
+
+            Toast.makeText(this, "Enter a professor email", Toast.LENGTH_SHORT).show();
+        } else {
             helper.addCourse(courseNameString, professorString, emailString);
+            Toast.makeText(this, "Course Added Successfully", Toast.LENGTH_SHORT).show();
+            // go to course activity
         }
 
         /***
