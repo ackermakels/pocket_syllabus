@@ -4,19 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Full Layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:padding="10dp"
         android:orientation="vertical">
-        
+
+        <!-- Course Title -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="70dp"
             android:textAlignment="center"
             android:text="CS480"/>
-        
+
+        <!-- Course Info -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -39,28 +42,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_height="40dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:text="Professor"
-                android:textSize="20sp"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="3"
-                android:text="Email"
-                android:textSize="20sp"/>
-
-        </LinearLayout>
-
+        <!-- Assignments Title -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -68,11 +50,13 @@
             android:textAlignment="center"
             android:text="Assignments"/>
 
+        <!-- Assignments List View -->
         <ListView
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="30dp"/>
 
+        <!-- Add Assignment and Edit Assignment Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"

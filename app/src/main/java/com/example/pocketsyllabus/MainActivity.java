@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         courseList.setAdapter(itemsAdapter);
         courseList.setOnItemClickListener(this);
 
+        // setup db
         helper = new SQLHelper(this);
 
         try {
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Log.d("PocketSty", "Failed to Create DB");
         }
 
+        // add course ( for testing )
         helper.addCourse("CS480", "Pepe", "pepe@pepe.com");
 
         //create listener on button to run open Add method
