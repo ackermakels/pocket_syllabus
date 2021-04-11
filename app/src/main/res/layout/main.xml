@@ -13,7 +13,8 @@
         android:layout_weight="2"
         android:gravity="center"
         android:layout_gravity="center"
-        android:textSize="30dp"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
         android:text="Welcome to Pocket Syllabus!"/>
 
     <!-- Home Page Image -->
@@ -31,6 +32,16 @@
 
     </LinearLayout>
 
+    <!-- Course Title -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:text="Courses"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textSize="25dp"/>
+
     <!-- Course List -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +51,7 @@
 
         <ListView
             android:id="@+id/listView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
