@@ -166,7 +166,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     public Cursor getCourseInfo( String courseName ) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "SELECT * FROM Courses WHERE course_name=" + courseName;
+        String query = "SELECT * FROM Courses WHERE course_name='" + courseName + "'";
 
         Cursor data = db.rawQuery( query, null );
 
@@ -178,7 +178,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "SELECT * FROM Assignments WHERE course_name=" + courseName;
+        String query = "SELECT * FROM Assignments WHERE course_name='" + courseName + "'";
 
         Cursor data = db.rawQuery( query, null );
 

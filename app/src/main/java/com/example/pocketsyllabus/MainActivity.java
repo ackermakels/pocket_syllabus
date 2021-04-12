@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        //course list, array adapter, array
+        // course list, array adapter, array
         courseList = findViewById(R.id.listView);
         items = new ArrayList<>();
         itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         // add course ( for testing )
-        helper.addCourse("CS480", "Pepe", "pepe@pepe.com");
+        helper.addCourse("CS480", "Pepe", "pepe@pepe.com" );
+        // helper.addAssignment("Assignment 1", "01/02/2020", "CS480" );
 
         //create listener on button to run open Add method
         button = findViewById(R.id.button);
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void populateListView(){
         Log.d("pocket syllabus", "populateListView: Displaying data in the list view");
 
-        Cursor data = helper.getData();
+        Cursor data = helper.getMainActivityData();
 
         items.clear();
 
@@ -86,7 +87,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         String courseName = items.get(position);
-        Log.e("pocket syllabus", courseName);
+
+        // create intent for course activity
+        Intent courseIntent = new Intent( this, Course.class );
+
+        // create bundle for course activity
+        Bundle courseBundle = new Bundle();
+        courseBundle.putString( "courseName", courseName );
+
+        // add bundle to intent
+        courseIntent.putExtras( courseBundle );
+
+        // launch course activity
+        startActivity( courseIntent );
     }
 
     //close database

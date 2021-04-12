@@ -48,21 +48,39 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
             Log.d("pocket syllabus", "Failed to Create DB Connection");
         }
 
-        // todo get course data
+        // get course data
+        Cursor courseData = helper.getCourseInfo( courseName );
+        courseData.moveToNext();
+        professorName = courseData.getString(1);
+        professorEmail = courseData.getString(2);
+        System.out.println(professorEmail);
 
+        // get course assignments
+        Cursor assignmentsData = helper.getCourseAssignments( courseName );
 
-        // todo get assignment data
+        arrayList = new ArrayList<Assignment>();
+
+        while( assignmentsData.moveToNext() ) {
+            Assignment newAssignment = new Assignment(
+                    assignmentsData.getString(2),
+                    assignmentsData.getString(3)
+            );
+
+            arrayList.add(newAssignment);
+        }
 
         // setup assignment list
         listView = findViewById( R.id.listView );
 
         // connect adapter to list
-        adapter = new ArrayAdapter<Assignment>(
+        adapter = new ArrayAdapter<>(
                 this,
-                android.R.layout.simple_expandable_list_item_1,
+                android.R.layout.simple_list_item_1,
                 arrayList
         );
+
         listView.setAdapter( adapter );
+        System.out.println("here");
         listView.setOnItemClickListener( this );
 
         // initialize buttons and respective listener callbacks
@@ -71,7 +89,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
             @Override
             public void onClick( View v ) {
                 // create intent for add assignment activity
-                 Intent addAssignmentIntent = new Intent( this, AddAssignment.class );
+                 Intent addAssignmentIntent = new Intent( getApplicationContext(), AddAssignment.class );
 
                 // create bundle
                 Bundle assignmentBundle = new Bundle();
@@ -87,7 +105,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
             @Override
             public void onClick( View v ) {
                 // create intent for edit course activity
-                Intent addAssignmentIntent = new Intent( this, AddCourse.class );
+                Intent addAssignmentIntent = new Intent( getApplicationContext(), AddCourse.class );
 
                 // create bundle
                 Bundle assignmentBundle = new Bundle();
@@ -99,5 +117,9 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
                 startActivity( addAssignmentIntent );
             }
         });
+    }
+
+    public void onItemClick( AdapterView<?> parent, View v, int position, long id ) {
+        return;
     }
 }

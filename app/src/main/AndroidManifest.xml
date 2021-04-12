@@ -26,6 +26,15 @@
             </intent-filter>
         </activity>
 
+
+        <activity android:name=".Course">
+            <intent-filter>
+                <action android:name="android.intent.action.Course" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
     <uses-permission android:name="anroid.permission.INTERNET"/>
