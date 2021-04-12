@@ -11,8 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -22,10 +22,13 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
     private String courseName;
     private String professorName;
     private String professorEmail;
+    private TextView courseNameView;
+    private TextView professorNameView;
+    private TextView professorEmailView;
     private Button addButton;
     private Button editButton;
     private ListView listView;
-    private ArrayList<Assignment> arrayList;
+    private ArrayList<Assignment> arrayList = new ArrayList<>();
     private ArrayAdapter<Assignment> adapter;
     private SQLHelper helper;
     private SQLiteDatabase db;
@@ -48,26 +51,10 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
             Log.d("pocket syllabus", "Failed to Create DB Connection");
         }
 
-        // get course data
-        Cursor courseData = helper.getCourseInfo( courseName );
-        courseData.moveToNext();
-        professorName = courseData.getString(1);
-        professorEmail = courseData.getString(2);
-        System.out.println(professorEmail);
-
-        // get course assignments
-        Cursor assignmentsData = helper.getCourseAssignments( courseName );
-
-        arrayList = new ArrayList<Assignment>();
-
-        while( assignmentsData.moveToNext() ) {
-            Assignment newAssignment = new Assignment(
-                    assignmentsData.getString(2),
-                    assignmentsData.getString(3)
-            );
-
-            arrayList.add(newAssignment);
-        }
+        // setup text views
+        courseNameView = findViewById( R.id.courseName );
+        professorNameView = findViewById( R.id.professorName );
+        professorEmailView = findViewById( R.id.professorEmail );
 
         // setup assignment list
         listView = findViewById( R.id.listView );
@@ -80,8 +67,9 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         );
 
         listView.setAdapter( adapter );
-        System.out.println("here");
         listView.setOnItemClickListener( this );
+
+        populateViewData();
 
         // initialize buttons and respective listener callbacks
         addButton = findViewById( R.id.addAssignmentButton );
@@ -117,6 +105,35 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
                 startActivity( addAssignmentIntent );
             }
         });
+    }
+
+    public void populateViewData() {
+        // get course data
+        Cursor courseData = helper.getCourseInfo( courseName );
+        courseData.moveToNext();
+        professorName = courseData.getString(1);
+        professorEmail = courseData.getString(2);
+        System.out.println(professorEmail);
+
+        // get course assignments
+        Cursor assignmentsData = helper.getCourseAssignments( courseName );
+
+        while( assignmentsData.moveToNext() ) {
+            Assignment newAssignment = new Assignment(
+                    assignmentsData.getString(2),
+                    assignmentsData.getString(3)
+            );
+
+            arrayList.add(newAssignment);
+        }
+
+        // update list
+        adapter.notifyDataSetChanged();
+
+        // set fields
+        courseNameView.setText( courseName );
+        professorNameView.setText( professorName );
+        professorEmailView.setText( professorEmail );
     }
 
     public void onItemClick( AdapterView<?> parent, View v, int position, long id ) {

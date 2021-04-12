@@ -7,37 +7,62 @@
     <!-- Full Layout -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="match_parent"
         android:padding="10dp"
         android:orientation="vertical">
 
         <!-- Course Title -->
         <TextView
+            android:id="@+id/courseName"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="70dp"
-            android:textAlignment="center"
-            android:text="CS480"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="25dp"
+            android:textAlignment="center"/>
 
         <!-- Course Info -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="10dp">
             
             <TextView
                 android:layout_height="40dp"
                 android:layout_width="0dp"
                 android:layout_weight="2"
                 android:text="Professor"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/professorName"
                 android:layout_height="40dp"
                 android:layout_width="0dp"
                 android:layout_weight="3"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
                 android:text="Email"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="2"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/professorEmail"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="3"
                 android:textSize="20sp"/>
 
         </LinearLayout>
@@ -45,29 +70,32 @@
         <!-- Assignments Title -->
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="40dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp"
             android:textAlignment="center"
+            android:textSize="25dp"
             android:text="Assignments"/>
 
         <!-- Assignments List View -->
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="30dp"/>
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:layout_marginTop="10dp"/>
 
         <!-- Add Assignment and Edit Assignment Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/addAssignmentButton"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
                 android:text="Add Assignment"
@@ -76,7 +104,7 @@
             <Button
                 android:id="@+id/editCourseButton"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:text="Edit Course"
                 android:textSize="20dp" />
