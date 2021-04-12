@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         try {
             db = helper.getWritableDatabase();
         } catch (SQLException e) {
-            Log.d("PocketSty", "Failed to Create DB");
+            Log.d("pocket syllabus", "Failed to Create DB");
         }
 
         // add course ( for testing )
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void populateListView(){
-        Log.d("pocket Syllabus", "populateListView: Displaying data in the list view");
+        Log.d("pocket syllabus", "populateListView: Displaying data in the list view");
 
         Cursor data = helper.getData();
 

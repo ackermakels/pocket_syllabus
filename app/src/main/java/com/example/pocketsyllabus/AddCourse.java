@@ -35,12 +35,12 @@ public class AddCourse extends Activity {
 
         addCourse.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { add_course();}
+            public void onClick(View view) { addCourse();}
         });
-
     }
 
-    public void add_course(){
+    // add a course
+    public void addCourse(){
 
         String courseNameString = courseName.getText().toString();
         String professorString = professor.getText().toString();

@@ -15,7 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class add_assignment extends Activity {
+public class AddAssignment extends Activity {
     private EditText txtName;
     private EditText txtDue;
     private Button btnAdd;

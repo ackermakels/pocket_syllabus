@@ -10,15 +10,18 @@ import android.util.Log;
 /** Helper to the database, manages versions and creation */
 public class SQLHelper extends SQLiteOpenHelper {
 
+    // database vars
     public static final String DATABASE_NAME = "pocketsyllabus.db";
     public static final int DATABASE_VERSION = 4;
+
+    // assignment table vars
     public static final String ASSIGNMENT_TABLE = "assignments";
     public static final String KEY_A_NAME = "name";
     public static final String KEY_A_DATE = "duedate";
     public static final String KEY_A_ID = "id integer primary key autoincrement";
     public static final String KEY_A_COURSE = "course_name";
 
-
+    // create assignment table query
     public static final String CREATE_A_TABLE = "CREATE TABLE assignments("
             + KEY_A_ID + "," + KEY_A_NAME + " text,"
             + KEY_A_DATE + " text," + KEY_A_COURSE + " text" +
@@ -30,6 +33,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     public static final String KEY_PROFESSOR = "professor";
     public static final String KEY_EMAIL = "email";
 
+    // create course table query
     public static final String CREATE_C_TABLE = "CREATE TABLE courses("
             + KEY_C_NAME + " text primary key," + KEY_PROFESSOR + " text,"
             + KEY_EMAIL + " text);";
@@ -40,8 +44,8 @@ public class SQLHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    //called to create table
-    //NB: this is not a lifecycle method because this class is not an Activity
+    // called to create table
+    // NB: this is not a lifecycle method because this class is not an Activity
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.e("pocket syllabus", "Creating SQL Helper");
@@ -60,7 +64,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.execSQL(sql2);
     }
 
-    //called when database version mismatch
+    // called when database version mismatch
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -72,7 +76,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         onCreate(db);   //not calling a lifecycle method
     }
 
-    //add assignment to database
+    // add assignment to database
     public void addAssignment(String name, String date, String course) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -85,7 +89,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         Log.d("pocket syllabus", name + " added");
     }
 
-    //add course to database
+    // add course to database
     public void addCourse(String name, String professor, String email) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -100,7 +104,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    //update assignment name in database
+    // update assignment name in database
     public void updateAssignment(int id, String name, String duedate, String course_name){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -115,7 +119,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    //update Animal name in database
+    // update Animal name in database
     public void updateCourse(String course_name, String duedate){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -129,7 +133,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    //delete assignment from database
+    // delete assignment from database
     public void deleteAssignment(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(ASSIGNMENT_TABLE, "id=?", new String[] {String.valueOf(id)});
@@ -138,7 +142,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    //delete course from database
+    // delete course from database
     public void deleteCourse(String course_name){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(COURSE_TABLE,  "course_name=?", new String[] {course_name});
@@ -147,8 +151,8 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    //retrieve course data to populate list view
-    public Cursor getData() {
+    // retrieve course data to populate list view
+    public Cursor getMainActivityData() {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "SELECT * FROM " + COURSE_TABLE;
@@ -157,6 +161,30 @@ public class SQLHelper extends SQLiteOpenHelper {
 
         return data;
     }
+
+    // get course info for a course
+    public Cursor getCourseInfo( String courseName ) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM Courses WHERE course_name=" + courseName;
+
+        Cursor data = db.rawQuery( query, null );
+
+        return data;
+    }
+
+    // get the assignments for a course
+    public Cursor getCourseAssignments( String courseName) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM Assignments WHERE course_name=" + courseName;
+
+        Cursor data = db.rawQuery( query, null );
+
+        return data;
+    }
+
 }
 
 
