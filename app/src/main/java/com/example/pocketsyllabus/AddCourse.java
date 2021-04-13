@@ -2,8 +2,10 @@ package com.example.pocketsyllabus;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +37,7 @@ public class AddCourse extends Activity {
 
         addCourse.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { addCourse();}
+            public void onClick(View view) { addCourse(); }
         });
     }
 
@@ -59,12 +61,21 @@ public class AddCourse extends Activity {
             helper.addCourse(courseNameString, professorString, emailString);
             Toast.makeText(this, "Course Added Successfully", Toast.LENGTH_SHORT).show();
             // go to course activity
+            OpenCourseViewActivity();
         }
+
 
         /***
          * add course info to the Database
          *
          * update the main Activity listView with the Course Name
          */
+    }
+    public void OpenCourseViewActivity(){
+        Log.d( "pocket syllabus", "clicked add new course");
+
+        Intent i1 = new Intent(this, Course.class);
+        startActivity(i1);
+        Toast.makeText(this, "Opening Course View Page", Toast.LENGTH_SHORT).show();
     }
 }
