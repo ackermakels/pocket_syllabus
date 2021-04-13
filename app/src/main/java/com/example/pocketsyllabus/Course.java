@@ -142,8 +142,11 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         Intent addAssignmentIntent = new Intent( getApplicationContext(), AddAssignment.class );
 
         // create bundle
-        Bundle assignmentBundle = new Bundle();
-        assignmentBundle.putString( "course", courseName );
+        /*Bundle assignmentBundle = new Bundle();
+        assignmentBundle.putString( "course", courseName );*/
+
+        //pass course name to intent
+        addAssignmentIntent.putExtra("course", courseName);
 
         // start add assignment activity
         startActivity( addAssignmentIntent );

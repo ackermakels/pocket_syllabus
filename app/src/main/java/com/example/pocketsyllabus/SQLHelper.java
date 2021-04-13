@@ -52,16 +52,16 @@ public class SQLHelper extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS " + ASSIGNMENT_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + COURSE_TABLE);
+        //changed sequence in which tables are created
+        String sql2 = CREATE_C_TABLE;
+        Log.e("pocket syllabus", "onCreate: " + sql2);
+        db.execSQL(sql2);
+
+        Log.e("pocket syllabus", "sql helper created");
 
         String sql = CREATE_A_TABLE;
         Log.e("pocket syllabus", "onCreate: " + sql);
         db.execSQL(sql);
-
-        Log.e("pocket syllabus", "sql helper created");
-
-        String sql2 = CREATE_C_TABLE;
-        Log.e("pocket syllabus", "onCreate: " + sql2);
-        db.execSQL(sql2);
     }
 
     // called when database version mismatch
@@ -86,6 +86,10 @@ public class SQLHelper extends SQLiteOpenHelper {
         values.put(KEY_A_COURSE, course);
 
         db.insert(ASSIGNMENT_TABLE, null, values);
+        /*
+        String insertAssignment = "INSERT INTO assignments (name, duedate, course_name) VALUES ("+name+","+
+                date+","+course+");";
+        db.execSQL(insertAssignment);*/
         Log.d("pocket syllabus", name + " added");
     }
 
@@ -111,7 +115,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         values = new ContentValues();
         values.put(KEY_A_NAME, name);
         values.put(KEY_A_DATE, duedate);
-        values.put(KEY_A_DATE, course_name);
+        values.put(KEY_A_COURSE, course_name);
 
         db.update(ASSIGNMENT_TABLE, values, "id=?", new String[] {String.valueOf(id)});
         Log.d("pocket syllabus", name + " updated");
