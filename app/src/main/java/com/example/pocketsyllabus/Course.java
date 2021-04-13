@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,7 +28,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
     private Button editButton;
     private ListView listView;
     private ArrayList<Assignment> arrayList = new ArrayList<>();
-    private ArrayAdapter<Assignment> adapter;
+    private AssignmentAdapter adapter;
     private SQLHelper helper;
     private SQLiteDatabase db;
 
@@ -60,9 +59,8 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         listView = findViewById( R.id.listView );
 
         // connect adapter to list
-        adapter = new ArrayAdapter<>(
+        adapter = new AssignmentAdapter(
                 this,
-                android.R.layout.simple_list_item_1,
                 arrayList
         );
 
@@ -76,15 +74,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         addButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                // create intent for add assignment activity
-                 Intent addAssignmentIntent = new Intent( getApplicationContext(), AddAssignment.class );
-
-                // create bundle
-                Bundle assignmentBundle = new Bundle();
-                assignmentBundle.putString( "course", courseName );
-
-                // launch add assignment activity
-                startActivity( addAssignmentIntent );
+                addButtonHandler();
             }
         });
 
@@ -92,17 +82,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         editButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-                // create intent for edit course activity
-                Intent addAssignmentIntent = new Intent( getApplicationContext(), AddCourse.class );
-
-                // create bundle
-                Bundle assignmentBundle = new Bundle();
-                assignmentBundle.putString( "courseName", courseName );
-                assignmentBundle.putString( "professorName", professorName );
-                assignmentBundle.putString( "professorEmail", professorEmail );
-
-                // start add course activity
-                startActivity( addAssignmentIntent );
+                editButtonHandler();
             }
         });
     }
@@ -120,8 +100,8 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
 
         while( assignmentsData.moveToNext() ) {
             Assignment newAssignment = new Assignment(
-                    assignmentsData.getString(2),
-                    assignmentsData.getString(3)
+                    assignmentsData.getString(1),
+                    assignmentsData.getString(2)
             );
 
             arrayList.add(newAssignment);
@@ -134,6 +114,39 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         courseNameView.setText( courseName );
         professorNameView.setText( professorName );
         professorEmailView.setText( professorEmail );
+    }
+
+    public void editButtonHandler() {
+        // get course data
+        Cursor courseData = helper.getCourseInfo( courseName );
+        courseData.moveToNext();
+        professorName = courseData.getString(1);
+        professorEmail = courseData.getString(2);
+        System.out.println(professorEmail);
+
+        // create intent for edit course activity
+        Intent addAssignmentIntent = new Intent( getApplicationContext(), AddCourse.class );
+
+        // create bundle
+        Bundle assignmentBundle = new Bundle();
+        assignmentBundle.putString( "courseName", courseName );
+        assignmentBundle.putString( "professorName", professorName );
+        assignmentBundle.putString( "professorEmail", professorEmail );
+
+        // start add course activity
+        startActivity( addAssignmentIntent );
+    }
+
+    public void addButtonHandler() {
+        // create intent for add assignment activity
+        Intent addAssignmentIntent = new Intent( getApplicationContext(), AddAssignment.class );
+
+        // create bundle
+        Bundle assignmentBundle = new Bundle();
+        assignmentBundle.putString( "course", courseName );
+
+        // start add assignment activity
+        startActivity( addAssignmentIntent );
     }
 
     public void onItemClick( AdapterView<?> parent, View v, int position, long id ) {

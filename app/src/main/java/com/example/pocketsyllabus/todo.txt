@@ -6,6 +6,8 @@
 6. sql lit
     6.1 inner join in course activity to populate assignments in list view - Kelsey
 7. notifications - when an assignment is almost due - Tom
-8. course view page - dont forget to pass through the course name so that I can use it =>
+8. course view page - don't forget to pass through the course name so that I can use it =>
  add assignment activity - tom
+ 8.1 Add custom assignment adapter for arraylist
+
 9. add assignment page - kelsey
