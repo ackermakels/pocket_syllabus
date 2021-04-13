@@ -25,7 +25,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AddAssignment">
+            <intent-filter>
+                <action android:name="android.intent.action.AddAssignment" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".Course">
             <intent-filter>
