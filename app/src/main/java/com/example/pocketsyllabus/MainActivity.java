@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // add course ( for testing )
         helper.addCourse("CS480", "Pepe", "pepe@pepe.com" );
-        // helper.addAssignment("Assignment 1", "01/02/2020", "CS480" );
+        helper.addAssignment("Assignment 1", "01/02/2020", "CS480" );
 
         //create listener on button to run open Add method
         button = findViewById(R.id.button);

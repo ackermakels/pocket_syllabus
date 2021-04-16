@@ -182,9 +182,12 @@ public class SQLHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "SELECT * FROM Assignments WHERE course_name='" + courseName + "'";
+        // inner join query
+        String query2 = "SELECT * FROM Assignments INNER JOIN Courses ON " +
+                        "Courses.course_name = Assignments.course_name " +
+                        "WHERE Assignments.course_name LIKE '" + courseName + "';";
 
-        Cursor data = db.rawQuery( query, null );
+        Cursor data = db.rawQuery( query2, null );
 
         return data;
     }
