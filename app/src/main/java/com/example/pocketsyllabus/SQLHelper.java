@@ -155,13 +155,24 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    // retrieve course data to populate list view
-    public Cursor getMainActivityData() {
+    // get all courses in db
+    public Cursor getCourses() {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "SELECT * FROM " + COURSE_TABLE;
 
         Cursor data = db.rawQuery(query, null);
+
+        return data;
+    }
+
+    // get all assignments in db
+    public Cursor getAssignments() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM " + ASSIGNMENT_TABLE;
+
+        Cursor data = db.rawQuery( query, null );
 
         return data;
     }

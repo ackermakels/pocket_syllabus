@@ -1,7 +1,12 @@
 package com.example.pocketsyllabus;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,12 +14,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.sql.Time;
 import java.util.ArrayList;
 import android.database.*;
 import android.database.sqlite.*;
 import android.util.Log;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+
 
     private Button button;
     private ListView courseList;
@@ -22,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ArrayAdapter<String> itemsAdapter;
     private SQLHelper helper;
     private SQLiteDatabase db;
+    private NotificationManager notificationManager;
+    private NotificationCompat.Builder builder = null;
+    private String CHANNEL_ID = "01";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +69,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                OpenAddNewCourseActivity();
             }
         });
+
+        // setup nofications for assignments upcoming within a week
+        notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        createNotificationChannel();
+
+        sendAssignmentNotification();
     }
 
+    // populate fields on return from another activity
     @Override
     public void onResume() {
         super.onResume();
         populateListView();
     }
 
+    // close database
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(db != null)
+            db.close();
+    }
+
     private void populateListView(){
         Log.d("pocket syllabus", "populateListView: Displaying data in the list view");
 
-        Cursor data = helper.getMainActivityData();
+        Cursor data = helper.getCourses();
 
         items.clear();
 
@@ -102,11 +130,48 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         startActivity( courseIntent );
     }
 
-    //close database
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(db != null)
-            db.close();
+    public void createNotificationChannel() {
+        // only start it build version is api 26 or later
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
+            // create channel
+            CharSequence channelName = "assignment notifications";
+            String channelDescription = "notify user if an assignment is due within the next week";
+
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    channelName,
+                    importance
+            );
+
+            channel.setDescription( channelDescription );
+
+            NotificationManager notificationManager = getSystemService( NotificationManager.class );
+            notificationManager.createNotificationChannel( channel );
+        }
+    }
+
+    public void sendAssignmentNotification() {
+        ArrayList<Assignment> assignmentList = new ArrayList<>();
+        Date currentTime = Calendar.getInstance().getTime();
+
+        int todayDate  = currentTime.getDate();
+        int todayMonth = currentTime.getMonth();
+        int todayYear  = currentTime.getYear();
+
+        Cursor data = helper.getAssignments();
+
+        /**
+         * todo: get build assignment notification
+         */
+        while (data.moveToNext()){
+//            data.getString( )
+//            assignmentList.add( data.getString(0) ); /
+        }
+
+        itemsAdapter.notifyDataSetChanged();
+
+        System.out.println( todayDate + " " + todayMonth + " " + todayYear );
     }
 }
