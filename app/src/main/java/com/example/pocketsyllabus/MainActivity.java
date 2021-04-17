@@ -57,10 +57,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Log.d("pocket syllabus", "Failed to Create DB");
         }
 
-        // add course ( for testing )
-        helper.addCourse("CS480", "Pepe", "pepe@pepe.com" );
-        helper.addAssignment("Assignment 1", "01/02/2020", "CS480" );
-        helper.addAssignment("Assignment 1", "04/18/2021", "CS480" );
+        // helper.addCourse( "CS980", "Sir", "sir@sir.com" );
+        // helper.addAssignment( "Final Assignment", "04/18/2021", "CS980" );
 
         //create listener on button to run open Add method
         button = findViewById(R.id.button);
@@ -74,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // setup nofications for assignments upcoming within a week
         notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         createNotificationChannel();
-
-        sendAssignmentNotification();
     }
 
     // populate fields on return from another activity
@@ -83,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onResume() {
         super.onResume();
         populateListView();
+        sendAssignmentNotification();
     }
 
     // close database
@@ -154,22 +151,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void sendAssignmentNotification() {
+
        ArrayList<Assignment> dueAssignments = findDueAssignments();
-
-
-
     }
 
     public ArrayList<Assignment> findDueAssignments() {
         ArrayList<Assignment> assignmentList = new ArrayList<>();
-        Date currentTime = Calendar.getInstance().getTime();
+        Calendar calendar = Calendar.getInstance();
 
         // used to find day of year
         int[] monthDays = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30 };
 
-        int todayDate  = currentTime.getDate();
-        int todayMonth = currentTime.getMonth();
-        int todayYear  = currentTime.getYear();
+        int todayDate  = calendar.get( Calendar.DAY_OF_MONTH );
+        int todayMonth = calendar.get( Calendar.MONTH ) + 1;
+        int todayYear  = calendar.get( Calendar.YEAR );
 
         // handle leap year
         if ( ( todayYear % 4 ) == 0 ) {
@@ -188,13 +183,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 String[] assignmentDateArray = date.split("/");
 
-                System.out.println(" shit is about to go down ");
-
                 int assignmentMonth = Integer.parseInt(assignmentDateArray[0]);
                 int assignmentDate  = Integer.parseInt(assignmentDateArray[1]);
                 int assignmentYear  = Integer.parseInt(assignmentDateArray[2]);
-
-                System.out.println(" shit probably went down ");
 
                 if (todayYear == assignmentYear) {
 
@@ -213,18 +204,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     assignmentNum += assignmentDate;
 
                     if (currentNum >= (assignmentNum - 7)) {
+
                         assignmentList.add(new Assignment(name, date));
                     }
                 }
 
-                assignmentList.add(new Assignment(name, date));
-
-            } catch ( Exception e ) {};
+            } catch ( Exception e ) {
+                System.out.println( e.getMessage() );
+            };
         }
 
-        for ( Assignment assignment : assignmentList ) {
-            System.out.println( assignment.getDueDate() );
-        }
+//        for ( Assignment assignment : assignmentList ) {
+//            System.out.println( assignment.getDueDate() );
+//        }
 
         return assignmentList;
     }
