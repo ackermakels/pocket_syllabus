@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.sql.Time;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import android.database.*;
 import android.database.sqlite.*;
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // add course ( for testing )
         helper.addCourse("CS480", "Pepe", "pepe@pepe.com" );
         helper.addAssignment("Assignment 1", "01/02/2020", "CS480" );
+        helper.addAssignment("Assignment 1", "04/18/2021", "CS480" );
 
         //create listener on button to run open Add method
         button = findViewById(R.id.button);
@@ -153,25 +154,78 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void sendAssignmentNotification() {
+       ArrayList<Assignment> dueAssignments = findDueAssignments();
+
+
+
+    }
+
+    public ArrayList<Assignment> findDueAssignments() {
         ArrayList<Assignment> assignmentList = new ArrayList<>();
         Date currentTime = Calendar.getInstance().getTime();
+
+        // used to find day of year
+        int[] monthDays = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30 };
 
         int todayDate  = currentTime.getDate();
         int todayMonth = currentTime.getMonth();
         int todayYear  = currentTime.getYear();
 
-        Cursor data = helper.getAssignments();
-
-        /**
-         * todo: get build assignment notification
-         */
-        while (data.moveToNext()){
-//            data.getString( )
-//            assignmentList.add( data.getString(0) ); /
+        // handle leap year
+        if ( ( todayYear % 4 ) == 0 ) {
+            monthDays[ 2 ] = 29;
         }
 
-        itemsAdapter.notifyDataSetChanged();
+        Cursor data = helper.getAssignments();
 
-        System.out.println( todayDate + " " + todayMonth + " " + todayYear );
+        String date;
+        String name;
+
+        while (data.moveToNext()){
+            try {
+                name = data.getString(1);
+                date = data.getString(2);
+
+                String[] assignmentDateArray = date.split("/");
+
+                System.out.println(" shit is about to go down ");
+
+                int assignmentMonth = Integer.parseInt(assignmentDateArray[0]);
+                int assignmentDate  = Integer.parseInt(assignmentDateArray[1]);
+                int assignmentYear  = Integer.parseInt(assignmentDateArray[2]);
+
+                System.out.println(" shit probably went down ");
+
+                if (todayYear == assignmentYear) {
+
+                    int currentNum = 0;
+                    for (int i = 0; i < todayMonth; i++) {
+                        currentNum += monthDays[i];
+                    }
+
+                    currentNum += todayDate;
+
+                    int assignmentNum = 0;
+                    for (int i = 0; i < assignmentMonth; i++) {
+                        assignmentNum += monthDays[i];
+                    }
+
+                    assignmentNum += assignmentDate;
+
+                    if (currentNum >= (assignmentNum - 7)) {
+                        assignmentList.add(new Assignment(name, date));
+                    }
+                }
+
+                assignmentList.add(new Assignment(name, date));
+
+            } catch ( Exception e ) {};
+        }
+
+        for ( Assignment assignment : assignmentList ) {
+            System.out.println( assignment.getDueDate() );
+        }
+
+        return assignmentList;
     }
 }
