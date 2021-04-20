@@ -13,6 +13,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -284,6 +285,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
                 return true;
+            case R.id.item2:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://blackboard.bentley.edu/"));
+                startActivity(browserIntent);
 
             default:
                 return super.onOptionsItemSelected(item);
