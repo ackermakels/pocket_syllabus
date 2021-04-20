@@ -155,13 +155,24 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    // retrieve course data to populate list view
-    public Cursor getMainActivityData() {
+    // get all courses in db
+    public Cursor getCourses() {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "SELECT * FROM " + COURSE_TABLE;
 
         Cursor data = db.rawQuery(query, null);
+
+        return data;
+    }
+
+    // get all assignments in db
+    public Cursor getAssignments() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM " + ASSIGNMENT_TABLE;
+
+        Cursor data = db.rawQuery( query, null );
 
         return data;
     }
@@ -182,9 +193,12 @@ public class SQLHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "SELECT * FROM Assignments WHERE course_name='" + courseName + "'";
+        // inner join query
+        String query2 = "SELECT * FROM Assignments INNER JOIN Courses ON " +
+                        "Courses.course_name = Assignments.course_name " +
+                        "WHERE Assignments.course_name LIKE '" + courseName + "';";
 
-        Cursor data = db.rawQuery( query, null );
+        Cursor data = db.rawQuery( query2, null );
 
         return data;
     }

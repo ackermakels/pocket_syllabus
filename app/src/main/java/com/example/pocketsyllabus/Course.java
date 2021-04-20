@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,8 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
     private TextView professorEmailView;
     private Button addButton;
     private Button editButton;
+    private Button emailButton;
+    private Button smsButton;
     private ListView listView;
     private ArrayList<Assignment> arrayList = new ArrayList<>();
     private AssignmentAdapter adapter;
@@ -85,6 +88,18 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
                 editButtonHandler();
             }
         });
+
+        emailButton = findViewById( R.id.emailButton);
+        emailButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) { emailButtonHandler(); }
+        });
+
+        smsButton = findViewById( R.id.smsButton );
+        smsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { smsButtonHandler(); }
+        });
     }
 
     public void populateViewData() {
@@ -141,15 +156,25 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         // create intent for add assignment activity
         Intent addAssignmentIntent = new Intent( getApplicationContext(), AddAssignment.class );
 
-        // create bundle
-        /*Bundle assignmentBundle = new Bundle();
-        assignmentBundle.putString( "course", courseName );*/
-
         //pass course name to intent
         addAssignmentIntent.putExtra("course", courseName);
 
         // start add assignment activity
         startActivity( addAssignmentIntent );
+    }
+
+    public void emailButtonHandler() {
+        Intent emailIntent = new Intent( Intent.ACTION_SENDTO, Uri.parse( "mailto:" ) );
+
+        emailIntent.putExtra( Intent.EXTRA_EMAIL, new String[] { professorEmail } );
+
+        if( emailIntent.resolveActivity( getPackageManager() ) != null ) {
+            startActivity( emailIntent );
+        }
+    }
+
+    public void smsButtonHandler() {
+
     }
 
     public void onItemClick( AdapterView<?> parent, View v, int position, long id ) {
