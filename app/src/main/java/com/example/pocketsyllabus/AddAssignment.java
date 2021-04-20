@@ -1,10 +1,17 @@
 package com.example.pocketsyllabus;
 import android.app.Activity;
 import android.content.Intent;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+
 import android.os.Bundle;
 import android.database.*;
 import android.database.sqlite.*;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.content.ContentValues;
 import android.view.KeyEvent;
@@ -17,12 +24,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
+
 public class AddAssignment extends Activity {
     private EditText txtName;
     private EditText txtDue;
     private Button btnAdd;
     private SQLiteDatabase db;
     private SQLHelper helper;
+
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +43,8 @@ public class AddAssignment extends Activity {
         txtDue = (EditText) findViewById(R.id.txtDueDate);
         btnAdd = (Button) findViewById(R.id.btnAdd);
         //Bundle bundle = getIntent().getExtras();
+
+
 
         btnAdd.setOnClickListener(v1 -> {
             //get user input
@@ -54,4 +67,27 @@ public class AddAssignment extends Activity {
         });
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item1:
+
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+
 }

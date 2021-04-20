@@ -1,8 +1,12 @@
 package com.example.pocketsyllabus;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationManagerCompat;
+
+import android.app.ActionBar;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -11,6 +15,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +30,8 @@ import java.util.ArrayList;
 import android.database.*;
 import android.database.sqlite.*;
 import android.util.Log;
+
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -40,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private String CHANNEL_ID = "01";
     private int NOTIFICATION_ID = 1;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         courseList.setAdapter(itemsAdapter);
         courseList.setOnItemClickListener(this);
+
+
+
 
         // setup db
         helper = new SQLHelper(this);
@@ -255,4 +269,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         return assignmentList;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item1:
+
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
 }
