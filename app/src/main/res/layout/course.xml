@@ -145,7 +145,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="8"
-            android:padding="10dp"/>
+            android:divider="@color/white"
+            android:dividerHeight="1dp"
+            android:drawSelectorOnTop="false"
+            android:padding="10dp"
+            android:background="@color/colorPrimary"/>
+
 
         <!-- Add Assignment and Edit Assignment Buttons -->
         <LinearLayout

@@ -124,16 +124,17 @@ public class SQLHelper extends SQLiteOpenHelper {
     }
 
     // update Animal name in database
-    public void updateCourse(String course_name, String duedate){
+    public void updateCourse(String name, String professor, String email){
         SQLiteDatabase db = this.getWritableDatabase();
 
         values = new ContentValues();
-        values.put(KEY_A_NAME, course_name);
-        values.put(KEY_A_DATE, duedate);
+        values.put(KEY_C_NAME, name);
+        values.put(KEY_PROFESSOR, professor);
+        values.put(KEY_EMAIL, email);
 
-        db.update(ASSIGNMENT_TABLE, values, "course_name=?",
-                new String[] {String.valueOf(course_name)});
-        Log.d("pocket syllabus", course_name + " updated");
+        db.update(COURSE_TABLE, values, "course_name=?",
+                new String[] {String.valueOf(name)});
+        Log.d("pocket syllabus", name + " updated");
         db.close();
     }
 

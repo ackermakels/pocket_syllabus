@@ -88,9 +88,6 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
 
         populateViewData();
 
-        //text to speech
-        speak("Overview of "+courseName);
-
         // initialize buttons and respective listener callbacks
         addButton = findViewById( R.id.addAssignmentButton );
         addButton.setOnClickListener( new View.OnClickListener() {
@@ -120,10 +117,6 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
             public void onClick(View v) { smsButtonHandler(); }
         });
     }
-    //speak methods will send text to be spoken
-    public void speak(String output){
-        speaker.speak(output, TextToSpeech.QUEUE_FLUSH, null, "Id 0");
-    }
 
     // Implements TextToSpeech.OnInitListener.
     public void onInit(int status) {
@@ -146,6 +139,13 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
             Log.e(tag, "Could not initialize TextToSpeech.");
         }
 
+        //text to speech
+        speak("Overview of " + courseName);
+    }
+
+    //speak methods will send text to be spoken
+    public void speak(String output){
+        speaker.speak(output, TextToSpeech.QUEUE_FLUSH, null, "Id 0");
     }
 
     // on destroy
@@ -193,7 +193,6 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         courseData.moveToNext();
         professorName = courseData.getString(1);
         professorEmail = courseData.getString(2);
-        System.out.println(professorEmail);
 
         // create intent for edit course activity
         Intent addAssignmentIntent = new Intent( getApplicationContext(), AddCourse.class );

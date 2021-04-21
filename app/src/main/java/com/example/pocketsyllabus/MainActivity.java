@@ -278,13 +278,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 returnToMain();
                 return true;
 
-
             case R.id.item2:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://blackboard.bentley.edu/"));
                 startActivity(browserIntent);
                 return true;
-
-
 
             case R.id.item3:
 
@@ -296,12 +293,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 finish();
                 System.exit(0);
 
-
             default:
                 return super.onOptionsItemSelected(item);
 
         }
-
 
     }
 

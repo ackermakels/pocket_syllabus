@@ -30,6 +30,11 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
     private EditText courseName;
     private EditText professor;
     private EditText professorEmail;
+    private EditText professorPhone;
+    private String courseNameString;
+    private String professorString;
+    private String professorEmailString;
+    private boolean update = true;
     private Button addCourse;
     private SQLiteDatabase db;
     private SQLHelper helper;
@@ -48,12 +53,28 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
 
         helper = new SQLHelper(this);
 
+        // get course info if update
+        Intent editIntent = getIntent();
+        try {
+            courseNameString = editIntent.getStringExtra( "courseName" );
+            professorString = editIntent.getStringExtra( "professorName" );
+            professorEmailString = editIntent.getStringExtra( "professorEmail" );
+        } catch ( Exception e ) {
+            update = false;
+        };
+
         //Initialize Text to Speech engine (context, listener object)
         speaker = new TextToSpeech(this, this);
 
         addCourse.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { addCourse(); }
+            public void onClick(View view) {
+                if ( update ) {
+                   editCourse();
+                } else {
+                    addCourse();
+                }
+            }
         });
     }
 
@@ -94,6 +115,40 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         super.onDestroy();
     }
 
+    // edit course
+
+    public void editCourse(){
+
+        String courseNameString = courseName.getText().toString();
+        String professorString = professor.getText().toString();
+        String emailString = professorEmail.getText().toString();
+
+        if (courseName == null || courseName.length() == 0){
+
+            Toast.makeText(this, "Enter a course name", Toast.LENGTH_SHORT).show();
+            speak("Please enter a course name.");
+        } else if (professor == null || professor.length() == 0){
+
+            Toast.makeText(this, "Enter a professor name", Toast.LENGTH_SHORT).show();
+            speak("Please enter a professor name.");
+        } else if (professorEmail == null || professorEmail.length() == 0){
+
+            Toast.makeText(this, "Enter a professor email", Toast.LENGTH_SHORT).show();
+            speak("Please enter a professor email.");
+        } else {
+            helper.updateCourse( courseNameString, professorString, emailString);
+            Toast.makeText(this, "Course Added Successfully", Toast.LENGTH_SHORT).show();
+            // go to course activity
+            OpenCourseViewActivity();
+        }
+
+
+        /***
+         * add course info to the Database
+         *
+         * update the main Activity listView with the Course Name
+         */
+    }
     // add a course
     public void addCourse(){
 
