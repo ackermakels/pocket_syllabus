@@ -4,21 +4,28 @@ package com.example.pocketsyllabus;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 
-public class AddCourse extends Activity implements TextToSpeech.OnInitListener {
+import static android.content.Intent.ACTION_VIEW;
+
+public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
     private EditText courseName;
     private EditText professor;
@@ -128,5 +135,62 @@ public class AddCourse extends Activity implements TextToSpeech.OnInitListener {
         Toast.makeText(this, "Opening Course View Page", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item1:
+
+                returnToMain();
+                return true;
+
+
+            case R.id.item2:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://blackboard.bentley.edu/"));
+                startActivity(browserIntent);
+                return true;
+
+
+
+            case R.id.item3:
+
+                startMap();
+                return true;
+
+            case R.id.item4:
+
+                finish();
+                System.exit(0);
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+
+
+    }
+
+    private void startMap() {
+        Uri uri2 = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
+        Intent i2 = new Intent(ACTION_VIEW, uri2);
+
+        if (i2.resolveActivity(getPackageManager()) != null) {
+            startActivity(i2);
+        }
+
+    }
+
+    private void returnToMain() {
+
+        Intent i1 = new Intent(this, MainActivity.class);
+        startActivity(i1);
+    }
 
 }
