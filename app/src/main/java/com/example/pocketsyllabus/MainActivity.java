@@ -1,24 +1,17 @@
 package com.example.pocketsyllabus;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationManagerCompat;
-
-import android.app.ActionBar;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,10 +24,10 @@ import java.util.ArrayList;
 import android.database.*;
 import android.database.sqlite.*;
 import android.util.Log;
-
-
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
@@ -51,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private int NOTIFICATION_ID = 1;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +55,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         courseList.setAdapter(itemsAdapter);
         courseList.setOnItemClickListener(this);
-
-
-
 
         // setup db
         helper = new SQLHelper(this);
@@ -124,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void OpenAddNewCourseActivity(){
         Log.d( "pocket syllabus", "clicked add new course");
-
         Intent i1 = new Intent(this, AddCourse.class);
         startActivity(i1);
         Toast.makeText(this, "Opening Add New Course Page", Toast.LENGTH_SHORT).show();
@@ -270,29 +258,4 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         return assignmentList;
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.item1:
-
-
-                return true;
-            case R.id.item2:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://blackboard.bentley.edu/"));
-                startActivity(browserIntent);
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
-
 }

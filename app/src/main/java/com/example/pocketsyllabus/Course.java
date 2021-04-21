@@ -20,8 +20,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class Course extends AppCompatActivity implements AdapterView.OnItemClickListener {
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
+
+public class Course extends AppCompatActivity implements AdapterView.OnItemClickListener, TextToSpeech.OnInitListener{
 
     private String courseName;
     private String professorName;
@@ -38,11 +42,17 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
     private AssignmentAdapter adapter;
     private SQLHelper helper;
     private SQLiteDatabase db;
+    private TextToSpeech speaker;
+    private static final String tag = "Widgets";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course);
+
+        //Initialize Text to Speech engine (context, listener object)
+        speaker = new TextToSpeech(this, this);
 
         // use bundle data
         Intent courseIntent = getIntent();
@@ -76,6 +86,9 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
 
         populateViewData();
 
+        //text to speech
+        speak("Overview of "+courseName);
+
         // initialize buttons and respective listener callbacks
         addButton = findViewById( R.id.addAssignmentButton );
         addButton.setOnClickListener( new View.OnClickListener() {
@@ -104,6 +117,43 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
             @Override
             public void onClick(View v) { smsButtonHandler(); }
         });
+    }
+    //speak methods will send text to be spoken
+    public void speak(String output){
+        speaker.speak(output, TextToSpeech.QUEUE_FLUSH, null, "Id 0");
+    }
+
+    // Implements TextToSpeech.OnInitListener.
+    public void onInit(int status) {
+        // status can be either TextToSpeech.SUCCESS or TextToSpeech.ERROR.
+        if (status == TextToSpeech.SUCCESS) {
+            // Set preferred language to US english.
+            // If a language is not be available, the result will indicate it.
+            int result = speaker.setLanguage(Locale.US);
+
+            if (result == TextToSpeech.LANG_MISSING_DATA ||
+                    result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                // Language data is missing or the language is not supported.
+                Log.e(tag, "Language is not available.");
+            } else {
+                // The TTS engine has been successfully initialized
+                Log.i(tag, "TTS Initialization successful.");
+            }
+        } else {
+            // Initialization failed.
+            Log.e(tag, "Could not initialize TextToSpeech.");
+        }
+
+    }
+
+    // on destroy
+    public void onDestroy(){
+        // shut down TTS engine
+        if(speaker != null){
+            speaker.stop();
+            speaker.shutdown();
+        }
+        super.onDestroy();
     }
 
     public void populateViewData() {
