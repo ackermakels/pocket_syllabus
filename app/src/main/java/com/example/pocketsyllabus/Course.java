@@ -25,6 +25,8 @@ import java.util.Locale;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 
+import static android.content.Intent.ACTION_VIEW;
+
 public class Course extends AppCompatActivity implements AdapterView.OnItemClickListener, TextToSpeech.OnInitListener{
 
     private String courseName;
@@ -244,17 +246,54 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.item1:
 
-
+                returnToMain();
                 return true;
+
+
+            case R.id.item2:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://blackboard.bentley.edu/"));
+                startActivity(browserIntent);
+                return true;
+
+
+
+            case R.id.item3:
+
+                startMap();
+                return true;
+
+            case R.id.item4:
+
+                finish();
+                System.exit(0);
+
 
             default:
                 return super.onOptionsItemSelected(item);
+
         }
 
+
+    }
+
+    private void startMap() {
+        Uri uri2 = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
+        Intent i2 = new Intent(ACTION_VIEW, uri2);
+
+        if (i2.resolveActivity(getPackageManager()) != null) {
+            startActivity(i2);
+        }
+
+    }
+
+    private void returnToMain() {
+
+        Intent i1 = new Intent(this, MainActivity.class);
+        startActivity(i1);
     }
 }
 

@@ -3,12 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
         <item android:id="@+id/item1"
-        android:title="Main Menu"
-        app:showAsAction="never"
+        android:title="Home"
+        app:showAsAction="always"
             />
 
         <item android:id="@+id/item2"
                 android:title="Blackboard"
                 app:showAsAction="never"/>
+
+        <item android:id="@+id/item3"
+                android:title="Map"
+                app:showAsAction="never"/>
+
+        <item android:id="@+id/item4"
+                android:title="Close"
+                app:showAsAction="always"/>
 
 </menu>
