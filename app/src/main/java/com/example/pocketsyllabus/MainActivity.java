@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,6 +26,8 @@ import android.database.sqlite.*;
 import android.util.Log;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private NotificationCompat.Builder builder = null;
     private String CHANNEL_ID = "01";
     private int NOTIFICATION_ID = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void OpenAddNewCourseActivity(){
         Log.d( "pocket syllabus", "clicked add new course");
-
         Intent i1 = new Intent(this, AddCourse.class);
         startActivity(i1);
         Toast.makeText(this, "Opening Add New Course Page", Toast.LENGTH_SHORT).show();
