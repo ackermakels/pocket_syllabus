@@ -71,8 +71,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //create listener on button to run open Add method
         button = findViewById(R.id.button);
         button.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+          public void onClick(View v) {
                OpenAddNewCourseActivity();
             }
         });
