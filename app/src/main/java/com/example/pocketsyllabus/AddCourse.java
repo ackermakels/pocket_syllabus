@@ -70,7 +70,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
             @Override
             public void onClick(View view) {
                 if ( update ) {
-                   editCourse();
+                    editCourse();
                 } else {
                     addCourse();
                 }

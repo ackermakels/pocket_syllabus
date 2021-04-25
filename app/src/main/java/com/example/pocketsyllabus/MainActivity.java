@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -36,7 +38,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
-
+    private Animation bounce;
     private Button button;
     private ListView courseList;
     private ArrayList<String> items;
@@ -76,14 +78,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //create listener on button to run open Add method
         button = findViewById(R.id.button);
         button.setOnClickListener( new View.OnClickListener() {
-          public void onClick(View v) {
-               OpenAddNewCourseActivity();
+            public void onClick(View v) {
+                button.startAnimation( bounce );
             }
         });
 
         // setup notifications for assignments upcoming within a week
         notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         createNotificationChannel();
+
+        // setup animation for buttons
+        bounce = AnimationUtils.loadAnimation( getApplicationContext(), R.anim.bounce);
+
+        bounce.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                System.out.println("start bounce");
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                System.out.println("ending bounce");
+                OpenAddNewCourseActivity();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) { return; }
+        });
     }
 
     // populate fields on return from another activity
