@@ -38,7 +38,6 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
     private Button addButton;
     private Button editButton;
     private Button emailButton;
-    private Button smsButton;
     private ListView listView;
     private ArrayList<Assignment> arrayList = new ArrayList<>();
     private AssignmentAdapter adapter;
@@ -111,11 +110,6 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
             public void onClick( View v ) { emailButtonHandler(); }
         });
 
-        smsButton = findViewById( R.id.smsButton );
-        smsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { smsButtonHandler(); }
-        });
     }
 
     // Implements TextToSpeech.OnInitListener.
@@ -228,9 +222,6 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         }
     }
 
-    public void smsButtonHandler() {
-
-    }
 
     public void onItemClick( AdapterView<?> parent, View v, int position, long id ) {
         return;

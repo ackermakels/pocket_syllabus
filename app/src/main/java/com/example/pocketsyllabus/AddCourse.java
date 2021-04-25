@@ -53,12 +53,17 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
 
         helper = new SQLHelper(this);
 
-        // get course info if update
-        Intent editIntent = getIntent();
         try {
+            // get course info if update
+            Intent editIntent = getIntent();
             courseNameString = editIntent.getStringExtra( "courseName" );
             professorString = editIntent.getStringExtra( "professorName" );
             professorEmailString = editIntent.getStringExtra( "professorEmail" );
+            //added below by kelsey
+            courseName.setText(courseNameString);
+            professor.setText(professorString);
+            professorEmail.setText(professorEmailString);
+            Toast.makeText(this, courseNameString+ professorEmailString+professorString, Toast.LENGTH_SHORT).show();//end addition
         } catch ( Exception e ) {
             update = false;
         };
@@ -69,11 +74,12 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         addCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ( update ) {
+
+               /* if ( update ) {
                     editCourse();
-                } else {
+                } else {*/
                     addCourse();
-                }
+              //  }
             }
         });
     }

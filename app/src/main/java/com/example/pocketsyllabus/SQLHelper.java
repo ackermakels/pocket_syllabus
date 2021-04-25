@@ -123,7 +123,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    // update Animal name in database
+    // update course in database
     public void updateCourse(String name, String professor, String email){
         SQLiteDatabase db = this.getWritableDatabase();
 
