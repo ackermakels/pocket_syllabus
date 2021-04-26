@@ -1,7 +1,7 @@
 package com.example.pocketsyllabus;
 
-
 import android.content.Intent;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,13 +16,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Locale;
 import java.util.Objects;
-
 import static android.content.Intent.ACTION_VIEW;
 
 public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitListener {
@@ -52,6 +49,12 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         addCourse = findViewById(R.id.AddCourse);
 
         helper = new SQLHelper(this);
+
+        try {
+            db = helper.getWritableDatabase();
+        } catch ( SQLException e ) {
+            Log.d("pocket syllabus", "Failed to Create DB Connection");
+        }
 
         // attempt get course info ( for edit )
         Intent editIntent = getIntent();
@@ -211,12 +214,10 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
                 return true;
 
             case R.id.item3:
-
                 startMap();
                 return true;
 
             case R.id.item4:
-                finish();
                 System.exit(0);
 
             default:

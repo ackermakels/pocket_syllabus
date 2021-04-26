@@ -6,9 +6,6 @@ import android.net.Uri;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import androidx.annotation.NonNull;
-
 import static android.content.Intent.ACTION_VIEW;
 
 public class Assignment extends Activity {

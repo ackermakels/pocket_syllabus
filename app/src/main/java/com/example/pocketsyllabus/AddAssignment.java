@@ -1,5 +1,7 @@
 package com.example.pocketsyllabus;
+
 import android.content.Intent;
+import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.database.sqlite.*;
@@ -13,15 +15,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.util.Locale;
 import java.util.Objects;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import static android.content.Intent.ACTION_VIEW;
 
-public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnInitListener{
+public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
     private Animation shake;
     private EditText txtName;
@@ -39,10 +38,18 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_assignment);
+
+        txtName = findViewById(R.id.txtName);
+        txtDue = findViewById(R.id.txtDueDate);
+        btnAdd = findViewById(R.id.btnAdd);
+
         helper = new SQLHelper(this);
-        txtName = (EditText) findViewById(R.id.txtName);
-        txtDue = (EditText) findViewById(R.id.txtDueDate);
-        btnAdd = (Button) findViewById(R.id.btnAdd);
+
+        try {
+            db = helper.getWritableDatabase();
+        } catch ( SQLException e ) {
+            Log.d("pocket syllabus", "Failed to Create DB Connection");
+        }
 
         //Initialize Text to Speech engine (context, listener object)
         speaker = new TextToSpeech(this, this);
@@ -164,12 +171,10 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
                 return true;
 
             case R.id.item3:
-
                 startMap();
                 return true;
 
             case R.id.item4:
-                finish();
                 System.exit(0);
 
             default:

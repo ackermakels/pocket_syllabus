@@ -270,7 +270,6 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
                 return true;
 
             case R.id.item4:
-                finish();
                 System.exit(0);
 
             default:

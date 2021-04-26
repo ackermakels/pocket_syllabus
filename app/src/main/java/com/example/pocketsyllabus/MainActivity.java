@@ -22,7 +22,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import android.database.*;
 import android.database.sqlite.*;
@@ -66,9 +65,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Log.d("pocket syllabus", "Failed to Create DB");
         }
 
-        // helper.addCourse( "CS980", "Sir", "sir@sir.com" );
-        // helper.addAssignment( "Final Assignment", "04/18/2021", "CS980" );
-
         //create listener on button to run open Add method
         button = findViewById(R.id.button);
         button.setOnClickListener( new View.OnClickListener() {
@@ -81,20 +77,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         createNotificationChannel();
 
-        // setup animation for buttons
+        // setup animation for add course button
         bounce = AnimationUtils.loadAnimation( getApplicationContext(), R.anim.bounce);
 
         bounce.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {
-                System.out.println("start bounce");
-            }
+            public void onAnimationStart(Animation animation) { return; }
 
             @Override
-            public void onAnimationEnd(Animation animation) {
-                System.out.println("ending bounce");
-                OpenAddNewCourseActivity();
-            }
+            public void onAnimationEnd(Animation animation) { OpenAddNewCourseActivity(); }
 
             @Override
             public void onAnimationRepeat(Animation animation) { return; }
@@ -266,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
 
             } catch ( Exception e ) {
-                // may fail in invalid date input
+                // may fail if invalid date input
                 System.out.println( e.getMessage() );
             };
         }
@@ -296,7 +287,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 return true;
 
             case R.id.item4:
-                finish();
                 System.exit(0);
 
             default:
