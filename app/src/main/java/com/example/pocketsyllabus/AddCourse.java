@@ -30,7 +30,6 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
     private EditText courseName;
     private EditText professor;
     private EditText professorEmail;
-    private EditText professorPhone;
     private String courseNameString;
     private String professorString;
     private String professorEmailString;
@@ -63,8 +62,9 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
             courseName.setText(courseNameString);
             professor.setText(professorString);
             professorEmail.setText(professorEmailString);
-            Toast.makeText(this, courseNameString+ professorEmailString+professorString, Toast.LENGTH_SHORT).show();//end addition
+            Toast.makeText(this, courseNameString + professorEmailString + professorString, Toast.LENGTH_SHORT).show();//end addition
         } catch ( Exception e ) {
+            System.out.println("Error Form Try Catch");
             update = false;
         };
 
@@ -75,11 +75,11 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
             @Override
             public void onClick(View view) {
 
-               /* if ( update ) {
+                if ( update ) {
                     editCourse();
-                } else {*/
+                } else {
                     addCourse();
-              //  }
+                }
             }
         });
     }
@@ -121,43 +121,32 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         super.onDestroy();
     }
 
-    // edit course
-
     public void editCourse(){
-
         String courseNameString = courseName.getText().toString();
         String professorString = professor.getText().toString();
         String emailString = professorEmail.getText().toString();
 
         if (courseName == null || courseName.length() == 0){
-
             Toast.makeText(this, "Enter a course name", Toast.LENGTH_SHORT).show();
             speak("Please enter a course name.");
-        } else if (professor == null || professor.length() == 0){
 
+        } else if (professor == null || professor.length() == 0){
             Toast.makeText(this, "Enter a professor name", Toast.LENGTH_SHORT).show();
             speak("Please enter a professor name.");
-        } else if (professorEmail == null || professorEmail.length() == 0){
 
+        } else if (professorEmail == null || professorEmail.length() == 0){
             Toast.makeText(this, "Enter a professor email", Toast.LENGTH_SHORT).show();
             speak("Please enter a professor email.");
+
         } else {
             helper.updateCourse( courseNameString, professorString, emailString);
             Toast.makeText(this, "Course Added Successfully", Toast.LENGTH_SHORT).show();
             // go to course activity
             OpenCourseViewActivity();
         }
-
-
-        /***
-         * add course info to the Database
-         *
-         * update the main Activity listView with the Course Name
-         */
     }
-    // add a course
-    public void addCourse(){
 
+    public void addCourse(){
         String courseNameString = courseName.getText().toString();
         String professorString = professor.getText().toString();
         String emailString = professorEmail.getText().toString();
@@ -181,18 +170,17 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
             OpenCourseViewActivity();
         }
 
-
-        /***
-         * add course info to the Database
-         *
-         * update the main Activity listView with the Course Name
-         */
     }
+
     public void OpenCourseViewActivity(){
         Log.d( "pocket syllabus", "clicked add new course");
 
-        Intent i1 = new Intent(this, Course.class);
-        startActivity(i1);
+        Intent courseIntent = new Intent(this, Course.class);
+        Bundle courseBundle = new Bundle();
+
+        courseBundle.putString( "courseName", courseNameString );
+
+        startActivity( courseIntent );
         Toast.makeText(this, "Opening Course View Page", Toast.LENGTH_SHORT).show();
     }
 
@@ -211,13 +199,14 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
                 returnToMain();
                 return true;
 
-
             case R.id.item2:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://blackboard.bentley.edu/"));
+                Intent browserIntent = new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://blackboard.bentley.edu/")
+                );
                 startActivity(browserIntent);
+
                 return true;
-
-
 
             case R.id.item3:
 
@@ -225,17 +214,12 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
                 return true;
 
             case R.id.item4:
-
                 finish();
                 System.exit(0);
 
-
             default:
                 return super.onOptionsItemSelected(item);
-
         }
-
-
     }
 
     private void startMap() {
@@ -245,7 +229,6 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         if (i2.resolveActivity(getPackageManager()) != null) {
             startActivity(i2);
         }
-
     }
 
     private void returnToMain() {
@@ -253,5 +236,4 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         Intent i1 = new Intent(this, MainActivity.class);
         startActivity(i1);
     }
-
 }

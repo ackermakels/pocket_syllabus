@@ -4,6 +4,5 @@
 5. google maps - open bentley's location - Kelsey
 6. sql lite
     6.1 inner join in course activity to populate assignments in list view - Kelsey
-7. notifications - when an assignment is almost due - Tom
 9. add assignment page - kelsey
 10. check manifest

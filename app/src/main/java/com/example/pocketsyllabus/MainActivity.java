@@ -2,7 +2,6 @@ package com.example.pocketsyllabus;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import android.net.Uri;
 import static android.content.Intent.ACTION_VIEW;
 import android.app.NotificationChannel;
@@ -10,10 +9,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,14 +23,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import android.database.*;
 import android.database.sqlite.*;
 import android.util.Log;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
