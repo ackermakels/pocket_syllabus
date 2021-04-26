@@ -83,6 +83,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         listView.setAdapter( adapter );
         listView.setOnItemClickListener( this );
 
+        // fills in assignments
         populateViewData();
 
         // initialize buttons and respective listener callbacks
@@ -194,6 +195,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         assignmentBundle.putString( "professorName", professorName );
         assignmentBundle.putString( "professorEmail", professorEmail );
 
+        // add bundle to intent
         addAssignmentIntent.putExtras( assignmentBundle );
 
         // start add course activity
@@ -221,9 +223,23 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         }
     }
 
-
+    // responds to clicks on assignments
     public void onItemClick( AdapterView<?> parent, View v, int position, long id ) {
-        return;
+        Assignment assignment = arrayList.get(position);
+
+        // create intent for add assignment activity
+        Intent assignmentIntent = new Intent( this, AddAssignment.class );
+
+        // create bundle
+        Bundle assignmentBundle = new Bundle();
+        assignmentBundle.putString( "courseName", courseName );
+        assignmentBundle.putString( "assignmentName", assignment.getName() );
+        assignmentBundle.putString( "assignmentDueDate", assignment.getDueDate() );
+
+        // add bundle to intent
+        assignmentIntent.putExtras( assignmentBundle );
+
+        startActivity( assignmentIntent );
     }
 
 
@@ -259,10 +275,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
 
             default:
                 return super.onOptionsItemSelected(item);
-
         }
-
-
     }
 
     private void startMap() {
@@ -272,11 +285,9 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         if (i2.resolveActivity(getPackageManager()) != null) {
             startActivity(i2);
         }
-
     }
 
     private void returnToMain() {
-
         Intent i1 = new Intent(this, MainActivity.class);
         startActivity(i1);
     }

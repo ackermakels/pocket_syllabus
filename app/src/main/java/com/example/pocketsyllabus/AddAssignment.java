@@ -28,6 +28,10 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
     private SQLHelper helper;
     private TextToSpeech speaker;
     private static final String tag = "Widgets";
+    private String assignmentName;
+    private String assignmentDueDate;
+    private String courseName;
+    private boolean update = true;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,29 +44,51 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
         //Initialize Text to Speech engine (context, listener object)
         speaker = new TextToSpeech(this, this);
 
-        btnAdd.setOnClickListener(v1 -> {
-            //get user input
-            String assignName = txtName.getText().toString();
-            String dueDate = txtDue.getText().toString();
-            // get course name from extras sent when running intent in course activity
-            String courseName = getIntent().getStringExtra("course");
+        courseName = getIntent().getStringExtra("course");
 
-            if(assignName.length() == 0 || dueDate.length() == 0){
-                Toast.makeText(this, "Enter both the Assignment Name and Due Date", Toast.LENGTH_SHORT).show();
-                speak("Please make sure to enter both the assignment name and due date.");
-            }
-            else {
-                //add new row to assignment table
-                helper.addAssignment(assignName, dueDate, courseName);
-                //make a toast to screen and have speech to say it was added
-                Toast.makeText(this, assignName+" due on "+dueDate+" added.", Toast.LENGTH_SHORT).show();
-                openCourseViewActivity();
-            }
+        try {
+            // attempt get assignment info ( for edit )
+            Intent editIntent = getIntent();
+            assignmentName = editIntent.getStringExtra( "assignmentName" );
+            assignmentDueDate = editIntent.getStringExtra( "assignmentDueDate" );
 
-        });
+            // set assignment inputs
+            txtName.setText( assignmentName );
+            txtDue.setText( assignmentDueDate );
+
+        } catch ( Exception e ) {
+            update = false;
+        }
 
         // setup shake animation
         shake = AnimationUtils.loadAnimation( getApplicationContext(), R.anim.shake );
+
+        btnAdd.setOnClickListener(v1 -> {
+            //get user input
+            String newAssignmentName = txtName.getText().toString();
+            String dueDate = txtDue.getText().toString();
+            // get course name from extras sent when running intent in course activity
+            courseName = getIntent().getStringExtra("courseName");
+
+            if(newAssignmentName.length() == 0 || dueDate.length() == 0) {
+                btnAdd.startAnimation( shake );
+                Toast.makeText(this, "Enter both the Assignment Name and Due Date",
+                        Toast.LENGTH_SHORT).show();
+                speak("Please make sure to enter both the assignment name and due date.");
+            } else {
+                // if editing assignment update it
+                if ( update ) {
+                    helper.updateAssignment(assignmentName, newAssignmentName, dueDate, courseName);
+                } else {
+                    helper.addAssignment(newAssignmentName, dueDate, courseName);
+                }
+                //add new row to assignment table
+
+                //make a toast to screen and have speech to say it was added
+                Toast.makeText(this, newAssignmentName + " due on " + dueDate + " added.", Toast.LENGTH_SHORT).show();
+                openCourseViewActivity();
+            }
+        });
     }
 
     //speak methods will send text to be spoken
@@ -103,8 +129,18 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
     }
 
     public void openCourseViewActivity(){
-        Intent i1 = new Intent(this, Course.class);
-        startActivity(i1);
+        // create intent
+        Intent courseIntent = new Intent(this, Course.class);
+
+        // create bundle
+        Bundle courseBundle = new Bundle();
+        courseBundle.putString( "courseName", courseName );
+
+        // add bundle to intent
+        courseIntent.putExtras( courseBundle );
+
+        // launch activity
+        startActivity(courseIntent);
     }
 
     @Override

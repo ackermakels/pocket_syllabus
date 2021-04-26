@@ -86,11 +86,22 @@ public class SQLHelper extends SQLiteOpenHelper {
         values.put(KEY_A_COURSE, course);
 
         db.insert(ASSIGNMENT_TABLE, null, values);
-        /*
-        String insertAssignment = "INSERT INTO assignments (name, duedate, course_name) VALUES ("+name+","+
-                date+","+course+");";
-        db.execSQL(insertAssignment);*/
         Log.d("pocket syllabus", name + " added");
+    }
+
+    // update assignment name in database
+    public void updateAssignment(String name, String newName, String duedate, String courseName ){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        values = new ContentValues();
+        values.put(KEY_A_NAME, newName);
+        values.put(KEY_A_DATE, duedate);
+        values.put(KEY_A_COURSE, courseName);
+
+        db.update(ASSIGNMENT_TABLE, values, "name=?", new String[] { name } );
+        Log.d("pocket syllabus", name + " updated");
+
+        db.close();
     }
 
     // add course to database
@@ -108,20 +119,6 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    // update assignment name in database
-    public void updateAssignment(int id, String name, String duedate, String course_name){
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        values = new ContentValues();
-        values.put(KEY_A_NAME, name);
-        values.put(KEY_A_DATE, duedate);
-        values.put(KEY_A_COURSE, course_name);
-
-        db.update(ASSIGNMENT_TABLE, values, "id=?", new String[] {String.valueOf(id)});
-        Log.d("pocket syllabus", name + " updated");
-
-        db.close();
-    }
 
     // update course in database
     public void updateCourse(String name, String professor, String email){

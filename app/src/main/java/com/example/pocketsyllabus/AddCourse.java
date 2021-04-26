@@ -56,19 +56,18 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         helper = new SQLHelper(this);
 
         try {
-            // get course info if update
+            // attempt get course info ( for edit )
             Intent editIntent = getIntent();
             courseNameString = editIntent.getStringExtra( "courseName" );
             professorString = editIntent.getStringExtra( "professorName" );
             professorEmailString = editIntent.getStringExtra( "professorEmail" );
 
-            //added below by kelsey
+            // set course inputs
             courseName.setText(courseNameString);
             professor.setText(professorString);
             professorEmail.setText(professorEmailString);
 
         } catch ( Exception e ) {
-            System.out.println("Error Form Try Catch");
             update = false;
         };
 
