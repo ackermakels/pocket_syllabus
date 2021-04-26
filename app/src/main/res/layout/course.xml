@@ -136,7 +136,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
-                android:text="Add Assignment"
+                android:text="Add Assign"
                 android:textSize="20dp" />
 
             <Button
