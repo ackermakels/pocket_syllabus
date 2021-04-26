@@ -16,14 +16,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
 
 import static android.content.Intent.ACTION_VIEW;
 

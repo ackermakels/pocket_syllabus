@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ import static android.content.Intent.ACTION_VIEW;
 
 public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
+    private Animation shake;
     private EditText courseName;
     private EditText professor;
     private EditText professorEmail;
@@ -82,6 +85,9 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
                 }
             }
         });
+
+        // setup animation for add button
+        shake = AnimationUtils.loadAnimation( getApplicationContext(), R.anim.shake );
     }
 
     //speak methods will send text to be spoken
@@ -127,14 +133,17 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         String emailString = professorEmail.getText().toString();
 
         if (courseName == null || courseName.length() == 0){
+            addCourse.startAnimation( shake );
             Toast.makeText(this, "Enter a course name", Toast.LENGTH_SHORT).show();
             speak("Please enter a course name.");
 
         } else if (professor == null || professor.length() == 0){
+            addCourse.startAnimation( shake );
             Toast.makeText(this, "Enter a professor name", Toast.LENGTH_SHORT).show();
             speak("Please enter a professor name.");
 
         } else if (professorEmail == null || professorEmail.length() == 0){
+            addCourse.startAnimation( shake );
             Toast.makeText(this, "Enter a professor email", Toast.LENGTH_SHORT).show();
             speak("Please enter a professor email.");
 
