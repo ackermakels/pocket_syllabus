@@ -106,7 +106,7 @@
 
         <Button
             android:id="@+id/AddCourse"
-            android:layout_width="150dp"
+            android:layout_width="160dp"
             android:layout_margin="10dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -116,7 +116,7 @@
 
         <Button
             android:id="@+id/DeleteCourse"
-            android:layout_width="150dp"
+            android:layout_width="160dp"
             android:layout_margin="10dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

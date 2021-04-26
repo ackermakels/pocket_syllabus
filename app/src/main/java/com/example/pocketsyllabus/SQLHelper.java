@@ -136,11 +136,11 @@ public class SQLHelper extends SQLiteOpenHelper {
     }
 
     // delete assignment from database
-    public void deleteAssignment(int id){
+    public void deleteAssignment(String name){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(ASSIGNMENT_TABLE, "id=?", new String[] {String.valueOf(id)});
+        db.delete(ASSIGNMENT_TABLE, "name=?", new String[] { name });
 
-        Log.d("pocket syllabus", id + " deleted");
+        Log.d("pocket syllabus", name + " deleted");
         db.close();
     }
 
@@ -148,6 +148,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     public void deleteCourse(String course_name){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(COURSE_TABLE,  "course_name=?", new String[] {course_name});
+        db.delete(ASSIGNMENT_TABLE, "course_name=?", new String[] {course_name});
 
         Log.d("pocket syllabus", course_name + " deleted");
         db.close();

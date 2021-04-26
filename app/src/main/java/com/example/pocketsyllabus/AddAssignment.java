@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -26,6 +27,7 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
     private EditText txtName;
     private EditText txtDue;
     private Button btnAdd;
+    private Button btnDelete;
     private SQLiteDatabase db;
     private SQLHelper helper;
     private TextToSpeech speaker;
@@ -42,6 +44,7 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
         txtName = findViewById(R.id.txtName);
         txtDue = findViewById(R.id.txtDueDate);
         btnAdd = findViewById(R.id.btnAdd);
+        btnDelete = findViewById(R.id.btnDelete);
 
         helper = new SQLHelper(this);
 
@@ -98,6 +101,14 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
                 openCourseViewActivity();
             }
         });
+
+        btnDelete.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteAssignment();
+                returnToMain();
+            }
+        });
     }
 
     //speak methods will send text to be spoken
@@ -135,6 +146,10 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
             speaker.shutdown();
         }
         super.onDestroy();
+    }
+
+    public void deleteAssignment() {
+        helper.deleteAssignment( assignmentName );
     }
 
     public void openCourseViewActivity(){
