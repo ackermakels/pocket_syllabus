@@ -207,7 +207,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         Intent addAssignmentIntent = new Intent( getApplicationContext(), AddAssignment.class );
 
         //pass course name to intent
-        addAssignmentIntent.putExtra("course", courseName);
+        addAssignmentIntent.putExtra("courseName", courseName);
 
         // start add assignment activity
         startActivity( addAssignmentIntent );

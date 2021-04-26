@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -46,18 +47,17 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
 
         courseName = getIntent().getStringExtra("course");
 
-        try {
-            // attempt get assignment info ( for edit )
-            Intent editIntent = getIntent();
-            assignmentName = editIntent.getStringExtra( "assignmentName" );
-            assignmentDueDate = editIntent.getStringExtra( "assignmentDueDate" );
+        // attempt get assignment info ( for edit )
+        Intent editIntent = getIntent();
+        assignmentName = editIntent.getStringExtra( "assignmentName" );
+        assignmentDueDate = editIntent.getStringExtra( "assignmentDueDate" );
 
+        if ( Objects.isNull(assignmentName) ) {
+            update = false;
+        } else {
             // set assignment inputs
             txtName.setText( assignmentName );
             txtDue.setText( assignmentDueDate );
-
-        } catch ( Exception e ) {
-            update = false;
         }
 
         // setup shake animation

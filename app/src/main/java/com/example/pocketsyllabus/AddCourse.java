@@ -1,7 +1,6 @@
 package com.example.pocketsyllabus;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -22,8 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
+import java.util.Objects;
 
 import static android.content.Intent.ACTION_VIEW;
 
@@ -55,20 +53,19 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
 
         helper = new SQLHelper(this);
 
-        try {
-            // attempt get course info ( for edit )
-            Intent editIntent = getIntent();
-            courseNameString = editIntent.getStringExtra( "courseName" );
-            professorString = editIntent.getStringExtra( "professorName" );
-            professorEmailString = editIntent.getStringExtra( "professorEmail" );
+        // attempt get course info ( for edit )
+        Intent editIntent = getIntent();
+        courseNameString = editIntent.getStringExtra( "courseName" );
+        professorString = editIntent.getStringExtra( "professorName" );
+        professorEmailString = editIntent.getStringExtra( "professorEmail" );
 
+        if ( Objects.isNull(courseNameString) ) {
+            update = false;
+        } else {
             // set course inputs
             courseName.setText(courseNameString);
             professor.setText(professorString);
             professorEmail.setText(professorEmailString);
-
-        } catch ( Exception e ) {
-            update = false;
         };
 
         //Initialize Text to Speech engine (context, listener object)
@@ -151,7 +148,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
             helper.updateCourse( courseNameString, professorString, emailString);
             Toast.makeText(this, "Course Added Successfully", Toast.LENGTH_SHORT).show();
             // go to course activity
-            OpenCourseViewActivity();
+            openCourseViewActivity();
         }
     }
 
@@ -161,36 +158,38 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         String emailString = professorEmail.getText().toString();
 
         if (courseName == null || courseName.length() == 0){
-
+            addCourse.startAnimation( shake );
             Toast.makeText(this, "Enter a course name", Toast.LENGTH_SHORT).show();
             speak("Please enter a course name.");
         } else if (professor == null || professor.length() == 0){
-
+            addCourse.startAnimation( shake );
             Toast.makeText(this, "Enter a professor name", Toast.LENGTH_SHORT).show();
             speak("Please enter a professor name.");
         } else if (professorEmail == null || professorEmail.length() == 0){
-
+            addCourse.startAnimation( shake );
             Toast.makeText(this, "Enter a professor email", Toast.LENGTH_SHORT).show();
             speak("Please enter a professor email.");
         } else {
             helper.addCourse(courseNameString, professorString, emailString);
             Toast.makeText(this, "Course Added Successfully", Toast.LENGTH_SHORT).show();
             // go to course activity
-            OpenCourseViewActivity();
+            openCourseViewActivity();
         }
-
     }
 
-    public void OpenCourseViewActivity(){
-        Log.d( "pocket syllabus", "clicked add new course");
-
+    public void openCourseViewActivity(){
+        // create intent
         Intent courseIntent = new Intent(this, Course.class);
-        Bundle courseBundle = new Bundle();
 
+        // create bundle
+        Bundle courseBundle = new Bundle();
         courseBundle.putString( "courseName", courseNameString );
 
+        // add bundle to intent
+        courseIntent.putExtras( courseBundle );
+
+        // start activity
         startActivity( courseIntent );
-        Toast.makeText(this, "Opening Course View Page", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         ArrayList<Assignment> dueAssignments = findDueAssignments();
 
-        System.out.println( dueAssignments.size() );
+        if ( dueAssignments.size() < 1 ) return;
 
         String dueAssignmentString = "Assignment due in the next week: \n";
         for ( Assignment assignment : dueAssignments ) {
@@ -259,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                     assignmentNum += assignmentDate;
 
-                    if ( currentNum >= (assignmentNum - 7) ) {
+                    if ( currentNum >= (assignmentNum - 7) && assignmentNum > currentNum ) {
                         // if in next 7 days add to due assignments list
                         assignmentList.add( new Assignment( name, date ) );
                     }
@@ -270,10 +270,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 System.out.println( e.getMessage() );
             };
         }
-
-//        for ( Assignment assignment : assignmentList ) {
-//            System.out.println( assignment.getDueDate() );
-//        }
 
         return assignmentList;
     }
