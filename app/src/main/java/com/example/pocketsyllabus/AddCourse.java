@@ -33,6 +33,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
     private String professorEmailString;
     private boolean update = true;
     private Button addCourse;
+    private Button deleteCourse;
     private SQLiteDatabase db;
     private SQLHelper helper;
     private TextToSpeech speaker;
@@ -47,6 +48,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         professor = findViewById(R.id.professorNameInput);
         professorEmail = findViewById(R.id.emailInput);
         addCourse = findViewById(R.id.AddCourse);
+        deleteCourse = findViewById(R.id.DeleteCourse);
 
         helper = new SQLHelper(this);
 
@@ -86,12 +88,20 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
             }
         });
 
+        deleteCourse.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteCourse();
+                returnToMain();
+            }
+        });
+
         // setup animation for add button
         shake = AnimationUtils.loadAnimation( getApplicationContext(), R.anim.shake );
     }
 
     //speak methods will send text to be spoken
-    public void speak(String output){
+    public void speak(String output) {
         speaker.speak(output, TextToSpeech.QUEUE_FLUSH, null, "Id 0");
     }
 
@@ -118,7 +128,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
     }
 
     // on destroy
-    public void onDestroy(){
+    public void onDestroy() {
         // shut down TTS engine
         if(speaker != null){
             speaker.stop();
@@ -127,7 +137,32 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         super.onDestroy();
     }
 
-    public void editCourse(){
+    public void addCourse() {
+        String courseNameString = courseName.getText().toString();
+        String professorString = professor.getText().toString();
+        String emailString = professorEmail.getText().toString();
+
+        if (courseName == null || courseName.length() == 0){
+            addCourse.startAnimation( shake );
+            Toast.makeText(this, "Enter a course name", Toast.LENGTH_SHORT).show();
+            speak("Please enter a course name.");
+        } else if (professor == null || professor.length() == 0){
+            addCourse.startAnimation( shake );
+            Toast.makeText(this, "Enter a professor name", Toast.LENGTH_SHORT).show();
+            speak("Please enter a professor name.");
+        } else if (professorEmail == null || professorEmail.length() == 0){
+            addCourse.startAnimation( shake );
+            Toast.makeText(this, "Enter a professor email", Toast.LENGTH_SHORT).show();
+            speak("Please enter a professor email.");
+        } else {
+            helper.addCourse(courseNameString, professorString, emailString);
+            Toast.makeText(this, "Course Added Successfully", Toast.LENGTH_SHORT).show();
+            // go to course activity
+            openCourseViewActivity();
+        }
+    }
+
+    public void editCourse() {
         String courseNameString = courseName.getText().toString();
         String professorString = professor.getText().toString();
         String emailString = professorEmail.getText().toString();
@@ -155,29 +190,8 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         }
     }
 
-    public void addCourse(){
-        String courseNameString = courseName.getText().toString();
-        String professorString = professor.getText().toString();
-        String emailString = professorEmail.getText().toString();
-
-        if (courseName == null || courseName.length() == 0){
-            addCourse.startAnimation( shake );
-            Toast.makeText(this, "Enter a course name", Toast.LENGTH_SHORT).show();
-            speak("Please enter a course name.");
-        } else if (professor == null || professor.length() == 0){
-            addCourse.startAnimation( shake );
-            Toast.makeText(this, "Enter a professor name", Toast.LENGTH_SHORT).show();
-            speak("Please enter a professor name.");
-        } else if (professorEmail == null || professorEmail.length() == 0){
-            addCourse.startAnimation( shake );
-            Toast.makeText(this, "Enter a professor email", Toast.LENGTH_SHORT).show();
-            speak("Please enter a professor email.");
-        } else {
-            helper.addCourse(courseNameString, professorString, emailString);
-            Toast.makeText(this, "Course Added Successfully", Toast.LENGTH_SHORT).show();
-            // go to course activity
-            openCourseViewActivity();
-        }
+    public void deleteCourse() {
+        helper.deleteCourse( courseNameString );
     }
 
     public void openCourseViewActivity(){
