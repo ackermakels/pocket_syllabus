@@ -22,10 +22,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import android.speech.tts.TextToSpeech;
+import android.widget.Toast;
 
 import static android.content.Intent.ACTION_VIEW;
 
-public class Course extends AppCompatActivity implements AdapterView.OnItemClickListener, TextToSpeech.OnInitListener{
+public class Course extends AppCompatActivity implements AdapterView.OnItemClickListener, TextToSpeech.OnInitListener {
 
     private String courseName;
     private String professorName;
@@ -80,6 +81,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
                 arrayList
         );
 
+        // set listener for assignments in list view
         listView.setAdapter( adapter );
         listView.setOnItemClickListener( this );
 
@@ -95,6 +97,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
             }
         });
 
+        // edit button setup
         editButton = findViewById( R.id.editCourseButton );
         editButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -103,6 +106,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
             }
         });
 
+        // email button setup
         emailButton = findViewById( R.id.emailButton );
         emailButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -254,22 +258,18 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item1:
-
                 returnToMain();
                 return true;
 
             case R.id.item2:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://blackboard.bentley.edu/"));
-                startActivity(browserIntent);
+                startWeb();
                 return true;
 
             case R.id.item3:
-
                 startMap();
                 return true;
 
             case R.id.item4:
-
                 finish();
                 System.exit(0);
 
@@ -278,18 +278,34 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         }
     }
 
-    private void startMap() {
-        Uri uri2 = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
-        Intent i2 = new Intent(ACTION_VIEW, uri2);
+    private void startWeb() {
+        Uri blackboardURI = Uri.parse("https://blackboard.bentley.edu/");
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, blackboardURI );
 
-        if (i2.resolveActivity(getPackageManager()) != null) {
-            startActivity(i2);
+        // only start google if has google
+        if (webIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(webIntent);
+        } else {
+            Toast.makeText(this, "Google Not Found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void startMap() {
+        Uri bentleyURI = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
+        Intent mapsIntent = new Intent(ACTION_VIEW, bentleyURI);
+
+        // only start maps if have google maps
+        if (mapsIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapsIntent);
+        } else {
+            Toast.makeText(this, "Google Maps Not Found", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void returnToMain() {
-        Intent i1 = new Intent(this, MainActivity.class);
-        startActivity(i1);
+        Intent mainIntent = new Intent(this, MainActivity.class);
+
+        startActivity(mainIntent);
     }
 }
 

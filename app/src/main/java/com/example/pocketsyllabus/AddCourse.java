@@ -203,17 +203,11 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item1:
-
                 returnToMain();
                 return true;
 
             case R.id.item2:
-                Intent browserIntent = new Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://blackboard.bentley.edu/")
-                );
-                startActivity(browserIntent);
-
+                startWeb();
                 return true;
 
             case R.id.item3:
@@ -230,18 +224,31 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         }
     }
 
-    private void startMap() {
-        Uri uri2 = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
-        Intent i2 = new Intent(ACTION_VIEW, uri2);
+    private void startWeb() {
+        Uri blackboardURI = Uri.parse("https://blackboard.bentley.edu/");
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, blackboardURI );
 
-        if (i2.resolveActivity(getPackageManager()) != null) {
-            startActivity(i2);
+        if (webIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(webIntent);
+        } else {
+            Toast.makeText(this, "Google Not Found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void startMap() {
+        Uri bentleyURI = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
+        Intent mapsIntent = new Intent(ACTION_VIEW, bentleyURI);
+
+        if (mapsIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapsIntent);
+        } else {
+            Toast.makeText(this, "Google Maps Not Found", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void returnToMain() {
+        Intent mainIntent = new Intent(this, MainActivity.class);
 
-        Intent i1 = new Intent(this, MainActivity.class);
-        startActivity(i1);
+        startActivity(mainIntent);
     }
 }

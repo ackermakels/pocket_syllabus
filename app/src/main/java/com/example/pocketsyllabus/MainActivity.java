@@ -285,45 +285,44 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item1:
-
-                returnToMain();
                 return true;
 
             case R.id.item2:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://blackboard.bentley.edu/"));
-                startActivity(browserIntent);
+                startWeb();
                 return true;
 
             case R.id.item3:
-
                 startMap();
                 return true;
 
             case R.id.item4:
-
                 finish();
                 System.exit(0);
 
             default:
                 return super.onOptionsItemSelected(item);
-
         }
+    }
 
+    private void startWeb() {
+        Uri blackboardURI = Uri.parse("https://blackboard.bentley.edu/");
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, blackboardURI );
+
+        if (webIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(webIntent);
+        } else {
+            Toast.makeText(this, "Google Not Found", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void startMap() {
-        Uri uri2 = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
-        Intent i2 = new Intent(ACTION_VIEW, uri2);
+        Uri bentleyURI = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
+        Intent mapsIntent = new Intent(ACTION_VIEW, bentleyURI);
 
-        if (i2.resolveActivity(getPackageManager()) != null) {
-            startActivity(i2);
+        if (mapsIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapsIntent);
+        } else {
+            Toast.makeText(this, "Google Maps Not Found", Toast.LENGTH_SHORT).show();
         }
-
-    }
-
-    private void returnToMain() {
-
-        Intent i1 = new Intent(this, MainActivity.class);
-        startActivity(i1);
     }
 }
