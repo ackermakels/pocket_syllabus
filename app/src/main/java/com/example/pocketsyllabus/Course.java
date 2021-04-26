@@ -102,12 +102,11 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
             }
         });
 
-        emailButton = findViewById( R.id.emailButton);
+        emailButton = findViewById( R.id.emailButton );
         emailButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) { emailButtonHandler(); }
         });
-
     }
 
     // Implements TextToSpeech.OnInitListener.
@@ -156,7 +155,6 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         courseData.moveToNext();
         professorName = courseData.getString(1);
         professorEmail = courseData.getString(2);
-        System.out.println(professorEmail);
 
         // get course assignments
         Cursor assignmentsData = helper.getCourseAssignments( courseName );
@@ -191,9 +189,12 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
 
         // create bundle
         Bundle assignmentBundle = new Bundle();
+
         assignmentBundle.putString( "courseName", courseName );
         assignmentBundle.putString( "professorName", professorName );
         assignmentBundle.putString( "professorEmail", professorEmail );
+
+        addAssignmentIntent.putExtras( assignmentBundle );
 
         // start add course activity
         startActivity( addAssignmentIntent );
@@ -241,13 +242,10 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
                 returnToMain();
                 return true;
 
-
             case R.id.item2:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://blackboard.bentley.edu/"));
                 startActivity(browserIntent);
                 return true;
-
-
 
             case R.id.item3:
 
@@ -258,7 +256,6 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
 
                 finish();
                 System.exit(0);
-
 
             default:
                 return super.onOptionsItemSelected(item);

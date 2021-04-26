@@ -61,11 +61,12 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
             courseNameString = editIntent.getStringExtra( "courseName" );
             professorString = editIntent.getStringExtra( "professorName" );
             professorEmailString = editIntent.getStringExtra( "professorEmail" );
+
             //added below by kelsey
             courseName.setText(courseNameString);
             professor.setText(professorString);
             professorEmail.setText(professorEmailString);
-            Toast.makeText(this, courseNameString + professorEmailString + professorString, Toast.LENGTH_SHORT).show();//end addition
+
         } catch ( Exception e ) {
             System.out.println("Error Form Try Catch");
             update = false;

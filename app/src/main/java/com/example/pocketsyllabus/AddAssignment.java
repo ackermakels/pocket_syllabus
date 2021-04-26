@@ -1,34 +1,26 @@
 package com.example.pocketsyllabus;
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.database.*;
 import android.database.sqlite.*;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.content.ContentValues;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.Locale;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnInitListener{
+
+    private Animation shake;
     private EditText txtName;
     private EditText txtDue;
     private Button btnAdd;
@@ -64,13 +56,15 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
                 helper.addAssignment(assignName, dueDate, courseName);
                 //make a toast to screen and have speech to say it was added
                 Toast.makeText(this, assignName+" due on "+dueDate+" added.", Toast.LENGTH_SHORT).show();
-                OpenCourseViewActivity();
+                openCourseViewActivity();
             }
 
         });
 
-
+        // setup shake animation
+        shake = AnimationUtils.loadAnimation( getApplicationContext(), R.anim.shake );
     }
+
     //speak methods will send text to be spoken
     public void speak(String output){
         speaker.speak(output, TextToSpeech.QUEUE_FLUSH, null, "Id 0");
@@ -96,7 +90,6 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
             // Initialization failed.
             Log.e(tag, "Could not initialize TextToSpeech.");
         }
-
     }
 
     // on destroy
@@ -109,7 +102,7 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
         super.onDestroy();
     }
 
-    public void OpenCourseViewActivity(){
+    public void openCourseViewActivity(){
         Intent i1 = new Intent(this, Course.class);
         startActivity(i1);
     }
@@ -125,9 +118,9 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.item1:
-
                 returnToMain();
                 return true;
+
             case R.id.item2:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://blackboard.bentley.edu/"));
                 startActivity(browserIntent);
@@ -135,11 +128,9 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     private void returnToMain() {
-
         Intent i1 = new Intent(this, MainActivity.class);
         startActivity(i1);
     }
