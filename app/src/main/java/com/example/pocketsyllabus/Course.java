@@ -221,10 +221,11 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         Intent emailIntent = new Intent( Intent.ACTION_SENDTO, Uri.parse( "mailto:" ) );
 
         emailIntent.putExtra( Intent.EXTRA_EMAIL, new String[] { professorEmail } );
+        startActivity( emailIntent );
+        /**if( emailIntent.resolveActivity( getPackageManager() ) != null ) {
 
-        if( emailIntent.resolveActivity( getPackageManager() ) != null ) {
-            startActivity( emailIntent );
-        }
+            Toast.makeText(this, "Trying to email", Toast.LENGTH_LONG).show();
+        }**/
     }
 
     // responds to clicks on assignments
@@ -269,9 +270,6 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
                 startMap();
                 return true;
 
-            case R.id.item4:
-                System.exit(0);
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -281,24 +279,27 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         Uri blackboardURI = Uri.parse("https://blackboard.bentley.edu/");
         Intent webIntent = new Intent(Intent.ACTION_VIEW, blackboardURI );
 
+        startActivity(webIntent);
         // only start google if has google
-        if (webIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(webIntent);
+        /**if (webIntent.resolveActivity(getPackageManager()) != null) {
+
         } else {
             Toast.makeText(this, "Google Not Found", Toast.LENGTH_SHORT).show();
-        }
+        }**/
     }
 
     private void startMap() {
         Uri bentleyURI = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
         Intent mapsIntent = new Intent(ACTION_VIEW, bentleyURI);
 
+        startActivity(mapsIntent);
         // only start maps if have google maps
+        /**
         if (mapsIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(mapsIntent);
+
         } else {
             Toast.makeText(this, "Google Maps Not Found", Toast.LENGTH_SHORT).show();
-        }
+        }**/
     }
 
     private void returnToMain() {

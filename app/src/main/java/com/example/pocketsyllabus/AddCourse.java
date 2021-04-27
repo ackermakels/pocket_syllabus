@@ -231,8 +231,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
                 startMap();
                 return true;
 
-            case R.id.item4:
-                System.exit(0);
+
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -243,22 +242,27 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         Uri blackboardURI = Uri.parse("https://blackboard.bentley.edu/");
         Intent webIntent = new Intent(Intent.ACTION_VIEW, blackboardURI );
 
-        if (webIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(webIntent);
-        } else {
-            Toast.makeText(this, "Google Not Found", Toast.LENGTH_SHORT).show();
-        }
+        startActivity(webIntent);
+        // only start google if has google
+        /**if (webIntent.resolveActivity(getPackageManager()) != null) {
+
+         } else {
+         Toast.makeText(this, "Google Not Found", Toast.LENGTH_SHORT).show();
+         }**/
     }
 
     private void startMap() {
         Uri bentleyURI = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
         Intent mapsIntent = new Intent(ACTION_VIEW, bentleyURI);
 
-        if (mapsIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(mapsIntent);
-        } else {
-            Toast.makeText(this, "Google Maps Not Found", Toast.LENGTH_SHORT).show();
-        }
+        startActivity(mapsIntent);
+        // only start maps if have google maps
+        /**
+         if (mapsIntent.resolveActivity(getPackageManager()) != null) {
+
+         } else {
+         Toast.makeText(this, "Google Maps Not Found", Toast.LENGTH_SHORT).show();
+         }**/
     }
 
     private void returnToMain() {
