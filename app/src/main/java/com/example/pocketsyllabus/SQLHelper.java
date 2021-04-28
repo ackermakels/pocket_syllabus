@@ -121,16 +121,16 @@ public class SQLHelper extends SQLiteOpenHelper {
 
 
     // update course in database
-    public void updateCourse(String name, String professor, String email){
+    public void updateCourse(String name, String newName, String professor, String email){
         SQLiteDatabase db = this.getWritableDatabase();
 
         values = new ContentValues();
-        values.put(KEY_C_NAME, name);
+        values.put(KEY_C_NAME, newName);
         values.put(KEY_PROFESSOR, professor);
         values.put(KEY_EMAIL, email);
 
         db.update(COURSE_TABLE, values, "course_name=?",
-                new String[] {String.valueOf(name)});
+                new String[] { name });
         Log.d("pocket syllabus", name + " updated");
         db.close();
     }

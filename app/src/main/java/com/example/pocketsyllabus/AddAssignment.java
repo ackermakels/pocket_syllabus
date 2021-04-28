@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.Locale;
 import java.util.Objects;
@@ -26,6 +27,7 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
     private Animation shake;
     private EditText txtName;
     private EditText txtDue;
+    private TextView title;
     private Button btnAdd;
     private Button btnDelete;
     private SQLiteDatabase db;
@@ -45,6 +47,7 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
         txtDue = findViewById(R.id.txtDueDate);
         btnAdd = findViewById(R.id.btnAdd);
         btnDelete = findViewById(R.id.btnDelete);
+        title = findViewById(R.id.custom);
 
         helper = new SQLHelper(this);
 
@@ -67,6 +70,9 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
         if ( Objects.isNull(assignmentName) ) {
             update = false;
         } else {
+            // set title to edit
+            title.setText( "Edit Assignment" );
+
             // set assignment inputs
             txtName.setText( assignmentName );
             txtDue.setText( assignmentDueDate );

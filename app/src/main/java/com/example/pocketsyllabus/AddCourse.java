@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
     private EditText courseName;
     private EditText professor;
     private EditText professorEmail;
+    private TextView title;
     private String courseNameString;
     private String professorString;
     private String professorEmailString;
@@ -49,6 +51,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         professorEmail = findViewById(R.id.emailInput);
         addCourse = findViewById(R.id.AddCourse);
         deleteCourse = findViewById(R.id.DeleteCourse);
+        title = findViewById( R.id.custom );
 
         helper = new SQLHelper(this);
 
@@ -67,6 +70,9 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         if ( Objects.isNull(courseNameString) ) {
             update = false;
         } else {
+            // set title to edit
+            title.setText( "Edit Course" );
+
             // set course inputs
             courseName.setText(courseNameString);
             professor.setText(professorString);
@@ -163,7 +169,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
     }
 
     public void editCourse() {
-        String courseNameString = courseName.getText().toString();
+        String newCourseName = courseName.getText().toString();
         String professorString = professor.getText().toString();
         String emailString = professorEmail.getText().toString();
 
@@ -183,7 +189,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
             speak("Please enter a professor email.");
 
         } else {
-            helper.updateCourse( courseNameString, professorString, emailString);
+            helper.updateCourse( courseNameString, newCourseName, professorString, emailString);
             Toast.makeText(this, "Course Added Successfully", Toast.LENGTH_SHORT).show();
             // go to course activity
             openCourseViewActivity();
@@ -195,12 +201,15 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
     }
 
     public void openCourseViewActivity(){
+        // get new course name
+        String newCourseName = courseName.getText().toString();
+
         // create intent
         Intent courseIntent = new Intent(this, Course.class);
 
         // create bundle
         Bundle courseBundle = new Bundle();
-        courseBundle.putString( "courseName", courseNameString );
+        courseBundle.putString( "courseName", newCourseName );
 
         // add bundle to intent
         courseIntent.putExtras( courseBundle );
@@ -230,8 +239,6 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
             case R.id.item3:
                 startMap();
                 return true;
-
-
 
             default:
                 return super.onOptionsItemSelected(item);
