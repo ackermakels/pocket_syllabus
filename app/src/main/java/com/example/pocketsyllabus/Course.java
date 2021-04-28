@@ -58,7 +58,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         Intent courseIntent = getIntent();
         courseName = courseIntent.getStringExtra( "courseName" );
 
-        // setup db
+        // setup sqlhelper and db
         helper = new SQLHelper( this );
 
         try {
@@ -182,6 +182,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         professorEmailView.setText( professorEmail );
     }
 
+    //method ran when edit button is clicked
     public void editButtonHandler() {
         // get course data
         Cursor courseData = helper.getCourseInfo( courseName );
@@ -206,6 +207,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         startActivity( addAssignmentIntent );
     }
 
+    //method ran when add button is clicked
     public void addButtonHandler() {
         // create intent for add assignment activity
         Intent addAssignmentIntent = new Intent( getApplicationContext(), AddAssignment.class );
@@ -217,6 +219,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         startActivity( addAssignmentIntent );
     }
 
+    //method ran when email button is clicked
     public void emailButtonHandler() {
         Intent emailIntent = new Intent( Intent.ACTION_SENDTO, Uri.parse( "mailto:" ) );
 
@@ -247,14 +250,14 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
         startActivity( assignmentIntent );
     }
 
-
+    //menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-
+    //menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -274,7 +277,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    //opens website on web
     private void startWeb() {
         Uri blackboardURI = Uri.parse("https://blackboard.bentley.edu/");
         Intent webIntent = new Intent(Intent.ACTION_VIEW, blackboardURI );
@@ -287,7 +290,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
             Toast.makeText(this, "Google Not Found", Toast.LENGTH_SHORT).show();
         }**/
     }
-
+    //opens google maps
     private void startMap() {
         Uri bentleyURI = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
         Intent mapsIntent = new Intent(ACTION_VIEW, bentleyURI);
@@ -301,7 +304,7 @@ public class Course extends AppCompatActivity implements AdapterView.OnItemClick
             Toast.makeText(this, "Google Maps Not Found", Toast.LENGTH_SHORT).show();
         }**/
     }
-
+    //returns to mainactivty
     private void returnToMain() {
         Intent mainIntent = new Intent(this, MainActivity.class);
 

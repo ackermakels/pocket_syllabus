@@ -1,8 +1,0 @@
-1. text to speech - Kelsey
-2. options menu for each activity - Steve
-4. browser - open bentley website - Steve
-5. google maps - open bentley's location - Kelsey
-6. sql lite
-    6.1 inner join in course activity to populate assignments in list view - Kelsey
-9. add assignment page - kelsey
-10. check manifest

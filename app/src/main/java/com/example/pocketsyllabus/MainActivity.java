@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if(db != null)
             db.close();
     }
-
+    //method to populate list view
     private void populateListView(){
         Log.d("pocket syllabus", "populateListView: Displaying data in the list view");
 
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         itemsAdapter.notifyDataSetChanged();
     }
-
+    //method to create intent to open addcourse acitivity
     public void OpenAddNewCourseActivity(){
         Log.d( "pocket syllabus", "clicked add new course");
         Intent i1 = new Intent(this, AddCourse.class);
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // launch course activity
         startActivity( courseIntent );
     }
-
+    //method to create notification channel
     public void createNotificationChannel() {
         // only start it build version is api 26 or later
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
@@ -166,11 +166,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             notificationManager.createNotificationChannel( channel );
         }
     }
-
+    //method to send notification
     public void sendAssignmentNotification() {
 
         ArrayList<Assignment> dueAssignments = findDueAssignments();
-
+        //if no assignments due in next 7 days, return since there won't be any notifications
         if ( dueAssignments.size() < 1 ) return;
 
         String dueAssignmentString = "Assignment due in the next week: \n";
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         notificationManager.notify( NOTIFICATION_ID, builder.build() );
     }
-
+    //method used to find assignemnts due in the next 7 days
     public ArrayList<Assignment> findDueAssignments() {
         ArrayList<Assignment> assignmentList = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
@@ -264,14 +264,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         return assignmentList;
     }
-
+    //menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-
+    //menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    //open website
     private void startWeb() {
         Uri blackboardURI = Uri.parse("https://blackboard.bentley.edu/");
         Intent webIntent = new Intent(Intent.ACTION_VIEW, blackboardURI );
@@ -303,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
          Toast.makeText(this, "Google Not Found", Toast.LENGTH_SHORT).show();
          }**/
     }
-
+    //open google maps
     private void startMap() {
         Uri bentleyURI = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
         Intent mapsIntent = new Intent(ACTION_VIEW, bentleyURI);

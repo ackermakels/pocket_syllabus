@@ -52,7 +52,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         addCourse = findViewById(R.id.AddCourse);
         deleteCourse = findViewById(R.id.DeleteCourse);
         title = findViewById( R.id.custom );
-
+        //initialize sql helper
         helper = new SQLHelper(this);
 
         try {
@@ -66,7 +66,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         courseNameString = editIntent.getStringExtra( "courseName" );
         professorString = editIntent.getStringExtra( "professorName" );
         professorEmailString = editIntent.getStringExtra( "professorEmail" );
-
+        // if course info was passed, set screen for update
         if ( Objects.isNull(courseNameString) ) {
             update = false;
         } else {
@@ -81,7 +81,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
 
         //Initialize Text to Speech engine (context, listener object)
         speaker = new TextToSpeech(this, this);
-
+        //if updating, use editcourse method, else use addcourse method
         addCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,7 +93,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
                 }
             }
         });
-
+        //deletes course and return to mainactivity
         deleteCourse.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,12 +142,12 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         }
         super.onDestroy();
     }
-
+    //method to add a course
     public void addCourse() {
         String courseNameString = courseName.getText().toString();
         String professorString = professor.getText().toString();
         String emailString = professorEmail.getText().toString();
-
+        //check to make each field is filled in and if it isn't, add button will shake, tts, and toast will appear on screen
         if (courseName == null || courseName.length() == 0){
             addCourse.startAnimation( shake );
             Toast.makeText(this, "Enter a course name", Toast.LENGTH_SHORT).show();
@@ -161,18 +161,19 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
             Toast.makeText(this, "Enter a professor email", Toast.LENGTH_SHORT).show();
             speak("Please enter a professor email.");
         } else {
+            // add course to course table
             helper.addCourse(courseNameString, professorString, emailString);
             Toast.makeText(this, "Course Added Successfully", Toast.LENGTH_SHORT).show();
             // go to course activity
             openCourseViewActivity();
         }
     }
-
+    //method to update a course
     public void editCourse() {
         String newCourseName = courseName.getText().toString();
         String professorString = professor.getText().toString();
         String emailString = professorEmail.getText().toString();
-
+        //check to make each field is filled in and if it isn't, add button will shake, tts, and toast will appear on screen
         if (courseName == null || courseName.length() == 0){
             addCourse.startAnimation( shake );
             Toast.makeText(this, "Enter a course name", Toast.LENGTH_SHORT).show();
@@ -189,17 +190,18 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
             speak("Please enter a professor email.");
 
         } else {
+            //update course in course table
             helper.updateCourse( courseNameString, newCourseName, professorString, emailString);
             Toast.makeText(this, "Course Added Successfully", Toast.LENGTH_SHORT).show();
             // go to course activity
             openCourseViewActivity();
         }
     }
-
+    //method to delete a course
     public void deleteCourse() {
         helper.deleteCourse( courseNameString );
     }
-
+    //method to create intent to go back to course activity and pass needed data
     public void openCourseViewActivity(){
         // get new course name
         String newCourseName = courseName.getText().toString();
@@ -217,14 +219,14 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
         // start activity
         startActivity( courseIntent );
     }
-
+    //menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-
+    //menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -244,7 +246,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    //opens website in web
     private void startWeb() {
         Uri blackboardURI = Uri.parse("https://blackboard.bentley.edu/");
         Intent webIntent = new Intent(Intent.ACTION_VIEW, blackboardURI );
@@ -257,7 +259,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
          Toast.makeText(this, "Google Not Found", Toast.LENGTH_SHORT).show();
          }**/
     }
-
+    //opens google maps
     private void startMap() {
         Uri bentleyURI = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
         Intent mapsIntent = new Intent(ACTION_VIEW, bentleyURI);
@@ -271,7 +273,7 @@ public class AddCourse extends AppCompatActivity implements TextToSpeech.OnInitL
          Toast.makeText(this, "Google Maps Not Found", Toast.LENGTH_SHORT).show();
          }**/
     }
-
+    //goes to mainactivity
     private void returnToMain() {
         Intent mainIntent = new Intent(this, MainActivity.class);
 

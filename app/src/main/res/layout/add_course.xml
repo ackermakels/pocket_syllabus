@@ -17,7 +17,7 @@
         android:layout_gravity="center"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:text="Add Course"/>
+        android:text="@string/add_course"/>
 
 
     <LinearLayout
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:textSize="20sp"
             android:gravity="center"
-            android:text="Course Name:" />
+            android:text="@string/course" />
 
         <EditText
             android:id="@+id/courseNameInput"
@@ -58,7 +58,7 @@
             android:layout_height="match_parent"
             android:textSize="20sp"
             android:gravity="center"
-            android:text="Professor:" />
+            android:text="@string/prof" />
 
         <EditText
             android:id="@+id/professorNameInput"
@@ -84,7 +84,7 @@
             android:gravity="center"
             android:layout_height="match_parent"
             android:textSize="20sp"
-            android:text="Professor's Email:" />
+            android:text="@string/prof_e" />
 
         <EditText
             android:id="@+id/emailInput"
@@ -112,7 +112,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="10dip"
-            android:text="Save" />
+            android:text="@string/save" />
 
         <Button
             android:id="@+id/DeleteCourse"
@@ -122,7 +122,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="10dip"
-            android:text="Delete" />
+            android:text="@string/delete" />
 
     </LinearLayout>
 
