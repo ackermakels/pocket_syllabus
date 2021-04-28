@@ -48,7 +48,7 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
         btnAdd = findViewById(R.id.btnAdd);
         btnDelete = findViewById(R.id.btnDelete);
         title = findViewById(R.id.custom);
-
+        //initialize sql helper
         helper = new SQLHelper(this);
 
         try {
@@ -59,14 +59,14 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
 
         //Initialize Text to Speech engine (context, listener object)
         speaker = new TextToSpeech(this, this);
-
+        //get course name that was passed from course activity
         courseName = getIntent().getStringExtra("course");
 
         // attempt get assignment info ( for edit )
         Intent editIntent = getIntent();
         assignmentName = editIntent.getStringExtra( "assignmentName" );
         assignmentDueDate = editIntent.getStringExtra( "assignmentDueDate" );
-
+        // if assignment info was passed, set screen for update
         if ( Objects.isNull(assignmentName) ) {
             update = false;
         } else {
@@ -87,7 +87,7 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
             String dueDate = txtDue.getText().toString();
             // get course name from extras sent when running intent in course activity
             courseName = getIntent().getStringExtra("courseName");
-
+            // if a field is blank, animate add button to shake, tts, and toast, else update or add the assignment
             if(newAssignmentName.length() == 0 || dueDate.length() == 0) {
                 btnAdd.startAnimation( shake );
                 Toast.makeText(this, "Enter both the Assignment Name and Due Date",
@@ -98,16 +98,17 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
                 if ( update ) {
                     helper.updateAssignment(assignmentName, newAssignmentName, dueDate, courseName);
                 } else {
+                    //add new row to assignment table
                     helper.addAssignment(newAssignmentName, dueDate, courseName);
                 }
-                //add new row to assignment table
 
-                //make a toast to screen and have speech to say it was added
+                //make a toast to screen that it was added
                 Toast.makeText(this, newAssignmentName + " due on " + dueDate + " added.", Toast.LENGTH_SHORT).show();
+                //return to course activity
                 openCourseViewActivity();
             }
         });
-
+        //delete assignment from assignemnt table if delete button is clicked
         btnDelete.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,11 +154,11 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
         }
         super.onDestroy();
     }
-
+    //method to call delete assignment from sqlhelper
     public void deleteAssignment() {
         helper.deleteAssignment( assignmentName );
     }
-
+    //method that will make intent and pass needed info back to course activity
     public void openCourseViewActivity(){
         // create intent
         Intent courseIntent = new Intent(this, Course.class);
@@ -172,14 +173,14 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
         // launch activity
         startActivity(courseIntent);
     }
-
+    //menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-
+    //menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -199,7 +200,7 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    //opens website in web
     private void startWeb() {
         Uri blackboardURI = Uri.parse("https://blackboard.bentley.edu/");
         Intent webIntent = new Intent(Intent.ACTION_VIEW, blackboardURI );
@@ -212,7 +213,7 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
          Toast.makeText(this, "Google Not Found", Toast.LENGTH_SHORT).show();
          }**/
     }
-
+    //opens google maps
     private void startMap() {
         Uri bentleyURI = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
         Intent mapsIntent = new Intent(ACTION_VIEW, bentleyURI);
@@ -226,7 +227,7 @@ public class AddAssignment extends AppCompatActivity implements TextToSpeech.OnI
          Toast.makeText(this, "Google Maps Not Found", Toast.LENGTH_SHORT).show();
          }**/
     }
-
+    //goes to mainactivity
     private void returnToMain() {
         Intent mainIntent = new Intent(this, MainActivity.class);
 

@@ -18,7 +18,7 @@
         android:layout_gravity="center"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:text="Add Assignment"/>
+        android:text="@string/add_assign"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:textSize="20sp"
             android:gravity="center"
-            android:text="Name:" />
+            android:text="@string/name" />
 
         <EditText
             android:id="@+id/txtName"
@@ -57,7 +57,7 @@
         android:layout_height="match_parent"
         android:textSize="20sp"
         android:gravity="center"
-        android:text="Due Date:" />
+        android:text="@string/due" />
 
         <EditText
             android:id="@+id/txtDueDate"
@@ -84,7 +84,7 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:padding="10dip"
-            android:text="Save"
+            android:text="@string/save"
             android:gravity="center"/>
 
         <Button
@@ -94,7 +94,7 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:padding="10dp"
-            android:text="Delete"
+            android:text="@string/delete"
             android:gravity="center"/>
 
     </LinearLayout>

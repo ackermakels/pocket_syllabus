@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">pocketsyllabus</string>
+    <string name="add_assign">Add Assignment</string>
+    <string name="name">Name:</string>
+    <string name="due">Due Date:</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="add_course">Add Course</string>
+    <string name="course">Course Name:</string>
+    <string name="prof">Professor:</string>
+    <string name="prof_e">Professor\'s Email:</string>
+    <string name="email">Email:</string>
+    <string name="assigns">Assignments</string>
+    <string name="assign">Assignment</string>
+    <string name="date">Due Date</string>
+    <string name="edit">Edit Course</string>
+    <string name="add_a">Add Assign</string>
+    <string name="add_c">Add New Course</string>
+    <string name="title">Welcome to Pocket Syllabus!</string>
+    <string name="courses">Courses</string>
 </resources>
